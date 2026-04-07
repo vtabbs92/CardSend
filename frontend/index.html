@@ -385,8 +385,7 @@
     const number = digits.length === 10 ? `+1${digits}` : `+${digits}`;
 
     // Use semicolon format for iOS, works on Android too
-    document.getElementById('sms-link').href = 'sms:' + number;
-    document.getElementById('sms-link').dataset.body = body;
+document.getElementById('sms-link').href = 'sms:' + number + '&body=' + encodeURIComponent(body);    document.getElementById('sms-link').dataset.body = body;
     document.getElementById('sms-preview-text').textContent = body;
     document.getElementById('modal-phone').value = formatPhone(cPhone);
     document.getElementById('send-modal').classList.add('open');
