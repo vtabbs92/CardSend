@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CardSend — Furniture Sales</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1E1E1E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="CardSend">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -24,7 +30,7 @@
   .app-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--cream); letter-spacing: 0.02em; }
   .app-logo span { color: var(--oak-light); }
   .rep-badge { font-size: 12px; color: var(--oak-light); display: flex; align-items: center; gap: 8px; }
-  .rep-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: #4A7C5A; }
+  .rep-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: #AA3333; }
 
   .main { max-width: 1000px; margin: 0 auto; padding: 32px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   @media (max-width: 700px) { .main { grid-template-columns: 1fr; padding: 20px 14px; } }
@@ -40,7 +46,7 @@
   .field input:focus { border-color: var(--oak); background: #fff; }
 
   .photo-upload { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
-  .photo-circle { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--border); background: var(--cream); overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; }
+  .photo-circle { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--border); background: var(--cream); overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
   .photo-circle img { width: 100%; height: 100%; object-fit: cover; }
   .photo-placeholder { font-size: 26px; color: var(--oak-light); font-family: 'Cormorant Garamond', serif; font-weight: 600; pointer-events: none; }
   .photo-hint { font-size: 12px; color: var(--mid); line-height: 1.5; }
@@ -89,11 +95,9 @@
   .empty-state { text-align: center; padding: 32px 16px; color: var(--mid); }
   .empty-icon { font-size: 32px; margin-bottom: 10px; opacity: 0.4; }
 
-  /* Setup banner */
   .setup-banner { background: #FFF8EE; border: 1px solid #E8C97A; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #7A5C10; line-height: 1.5; display: none; }
   .setup-banner.show { display: block; }
 
-  /* Modal */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
   .modal-overlay.open { display: flex; }
   .modal { background: #fff; border-radius: 14px; width: 100%; max-width: 420px; overflow: hidden; animation: slideUp 0.25s ease; }
@@ -104,58 +108,42 @@
   .modal-body { padding: 20px; }
   .sms-preview { background: var(--cream); border-radius: 8px; padding: 12px 14px; font-size: 13px; color: var(--mid); line-height: 1.6; margin-bottom: 16px; border: 1px solid var(--border); white-space: pre-wrap; }
 
-  /* Toast */
   #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--charcoal); color: #fff; padding: 12px 22px; border-radius: 8px; font-size: 13px; display: flex; align-items: center; gap: 8px; z-index: 999; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 4px 24px rgba(0,0,0,0.18); }
   #toast.show { transform: translateX(-50%) translateY(0); }
 
   .contact-list::-webkit-scrollbar { width: 4px; }
   .contact-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 </style>
-<<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1E1E1E">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="apple-mobile-web-app-title" content="CardSend">
-<link rel="apple-touch-icon" href="icon-192.png">
 </head>
-/head>
 <body>
 
 <div class="app-header">
   <div class="app-logo">Card<span>Send</span></div>
   <div class="rep-badge">
-    <span class="dot" id="status-dot" style="background:#AA3333;"></span>
+    <span class="dot" id="status-dot"></span>
     <span id="status-label">Not saved</span>
   </div>
 </div>
 
 <div class="main">
-
-  <!-- LEFT: Profile + Card + Send -->
   <div style="display:flex;flex-direction:column;gap:20px;">
-
     <div class="panel">
-      <div class="panel-header">
-        <span><span class="panel-dot"></span>Your Profile</span>
-      </div>
+      <div class="panel-header"><span><span class="panel-dot"></span>Your Profile</span></div>
       <div class="panel-body">
-
         <div class="setup-banner" id="setup-banner">
-          <strong>⚙ Setup required:</strong> Open <code>.env</code> and add your Supabase, Twilio, and Cloudinary keys, then restart the server. Until then the app runs in <em>demo mode</em> (contacts save locally only).
+          <strong>👋 First time?</strong> Fill in your profile and tap Save Profile to get started.
         </div>
-
         <div class="photo-upload">
-          <div class="photo-circle" onclick="document.getElementById('photo-input').click()" title="Upload photo">
+          <div class="photo-circle" onclick="document.getElementById('photo-input').click()">
             <img id="profile-img-preview" src="" style="display:none;">
             <div class="photo-placeholder" id="photo-init">?</div>
           </div>
           <input type="file" id="photo-input" accept="image/*" onchange="handlePhotoUpload(event)">
           <div class="photo-hint">
             <strong>Profile Photo</strong>
-            Tap to upload a headshot.<br>Shown on your digital card.
+            Tap to upload a headshot.
           </div>
         </div>
-
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <div class="field" style="grid-column:1/-1;">
             <label>Full Name</label>
@@ -163,7 +151,7 @@
           </div>
           <div class="field">
             <label>Title</label>
-            <input type="text" id="rep-title" placeholder="e.g. Senior Sales Associate" oninput="updatePreview()">
+            <input type="text" id="rep-title" placeholder="Sales Associate" oninput="updatePreview()">
           </div>
           <div class="field">
             <label>Store Location</label>
@@ -201,13 +189,12 @@
           </div>
           <div class="card-corner-logo">CardSend</div>
         </div>
-
         <div class="send-label">Send to Customer</div>
         <div class="send-row">
           <input type="text" id="cust-name" placeholder="Customer name" style="flex:1.1;">
           <input type="tel" id="cust-phone" placeholder="(555) 000-0000" style="flex:1.2;">
         </div>
-        <button class="btn btn-primary" id="send-btn" onclick="openSendModal()">
+        <button class="btn btn-primary" onclick="openSendModal()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.6 19.79 19.79 0 0 1 1.61 5 2 2 0 0 1 3.6 2.87h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 10.5a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 18z"/></svg>
           Send Card via SMS
         </button>
@@ -215,11 +202,10 @@
     </div>
   </div>
 
-  <!-- RIGHT: Contacts -->
   <div class="panel" style="height:fit-content;">
     <div class="panel-header">
       <span><span class="panel-dot"></span>Customer Contacts</span>
-      <button onclick="loadContacts()" style="background:none;border:none;color:var(--oak-light);cursor:pointer;font-size:18px;" title="Refresh">↻</button>
+      <button onclick="loadContacts()" style="background:none;border:none;color:var(--oak-light);cursor:pointer;font-size:18px;">↻</button>
     </div>
     <div class="panel-body">
       <div class="contacts-count"><strong id="contact-count">0</strong> contacts captured</div>
@@ -231,7 +217,6 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- SMS Modal -->
@@ -250,7 +235,9 @@
       </div>
       <div style="display:flex;gap:8px;margin-top:4px;">
         <button class="btn" style="flex:1;background:var(--cream);border:1px solid var(--border);color:var(--mid);" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-primary" id="confirm-btn" style="flex:2;margin-top:0;" onclick="confirmSend()">Confirm & Send</button>
+        <a id="sms-link" href="#" class="btn btn-primary" style="flex:2;margin-top:0;text-decoration:none;color:#fff;" onclick="handleSend()">
+          Confirm & Send
+        </a>
       </div>
     </div>
   </div>
@@ -259,15 +246,12 @@
 <div id="toast"><span id="toast-msg">Card sent!</span></div>
 
 <script>
-  // ── Config ─────────────────────────────────────────────────
-  // Change this to your deployed API URL when you go live
   const API_BASE = 'https://cardsend-backend.onrender.com/api';
-
-  // Rep ID is stored locally per device after first save
   let repId = localStorage.getItem('cs_rep_id') || null;
   let profilePhoto = '';
+  let pendingCustName = '';
+  let pendingCustPhone = '';
 
-  // ── Init ───────────────────────────────────────────────────
   (async () => {
     if (repId) {
       await loadProfile();
@@ -278,7 +262,6 @@
     }
   })();
 
-  // ── Load profile from API ──────────────────────────────────
   async function loadProfile() {
     try {
       const res = await fetch(`${API_BASE}/reps/${repId}`);
@@ -291,14 +274,12 @@
       document.getElementById('rep-email').value = rep.email || '';
       if (rep.photo_url) setPhoto(rep.photo_url);
       updatePreview();
-    } catch { /* offline or no server — stay in local mode */ }
+    } catch {}
   }
 
-  // ── Save / update profile ──────────────────────────────────
   async function saveProfile() {
     const name = document.getElementById('rep-name').value.trim();
     if (!name) { showToast('Enter your name first', true); return; }
-
     setBtnLoading('save-btn-content', true);
     const payload = {
       name,
@@ -307,24 +288,22 @@
       phone:          document.getElementById('rep-phone').value.trim(),
       email:          document.getElementById('rep-email').value.trim(),
     };
-
     try {
-      let res, rep;
+      let res;
       if (repId) {
         res = await fetch(`${API_BASE}/reps/${repId}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       } else {
         res = await fetch(`${API_BASE}/reps`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       }
       if (!res.ok) throw new Error(await res.text());
-      rep = await res.json();
+      const rep = await res.json();
       repId = rep.id;
       localStorage.setItem('cs_rep_id', repId);
       setStatus(true);
       document.getElementById('setup-banner').classList.remove('show');
       showToast('Profile saved');
       await loadContacts();
-    } catch (err) {
-      // Fallback: save locally if server not reachable
+    } catch {
       localStorage.setItem('cs_profile', JSON.stringify(payload));
       showToast('Saved locally (server not connected)', true);
     } finally {
@@ -332,18 +311,13 @@
     }
   }
 
-  // ── Photo upload ───────────────────────────────────────────
   async function handlePhotoUpload(e) {
     const file = e.target.files[0];
     if (!file) return;
-
-    // Show preview immediately
     const reader = new FileReader();
     reader.onload = ev => setPhoto(ev.target.result);
     reader.readAsDataURL(file);
-
-    // Upload to server if we have a rep id
-    if (!repId) { showToast('Save your profile first, then re-upload photo', true); return; }
+    if (!repId) { showToast('Save your profile first', true); return; }
     try {
       const form = new FormData();
       form.append('photo', file);
@@ -352,7 +326,7 @@
       const { photo_url } = await res.json();
       setPhoto(photo_url);
       showToast('Photo uploaded');
-    } catch { showToast('Photo preview set — server upload failed', true); }
+    } catch { showToast('Photo preview set', true); }
   }
 
   function setPhoto(src) {
@@ -365,7 +339,6 @@
     document.getElementById('card-init').style.display = 'none';
   }
 
-  // ── Card preview ───────────────────────────────────────────
   function updatePreview() {
     const name  = document.getElementById('rep-name').value.trim();
     const title = document.getElementById('rep-title').value.trim();
@@ -380,9 +353,8 @@
     }
   }
 
-  // ── Send modal ─────────────────────────────────────────────
-  function buildSMSPreview(custName) {
-    const name  = document.getElementById('rep-name').value.trim()  || 'Your Sales Associate';
+  function buildSMSBody(custName) {
+    const name  = document.getElementById('rep-name').value.trim() || 'Your Sales Associate';
     const title = document.getElementById('rep-title').value.trim();
     const store = document.getElementById('rep-store').value.trim();
     const phone = document.getElementById('rep-phone').value.trim();
@@ -391,67 +363,61 @@
     if (title) lines.push(title);
     if (store) lines.push('📍 ' + store);
     if (phone) lines.push('📞 ' + phone);
-    if (email) lines.push('✉️  ' + email);
+    if (email) lines.push('✉️ ' + email);
     lines.push('', 'Looking forward to helping you find the perfect piece!');
     return lines.join('\n');
   }
 
   function openSendModal() {
-    const name  = document.getElementById('rep-name').value.trim();
-    const cName = document.getElementById('cust-name').value.trim();
+    const name   = document.getElementById('rep-name').value.trim();
+    const cName  = document.getElementById('cust-name').value.trim();
     const cPhone = document.getElementById('cust-phone').value.trim();
     if (!name)   { showToast('Add your name to your profile first', true); return; }
     if (!cName)  { showToast("Enter the customer's name", true); return; }
     if (!cPhone) { showToast("Enter the customer's phone number", true); return; }
     if (cPhone.replace(/\D/g,'').length < 10) { showToast('Enter a valid phone number', true); return; }
-    document.getElementById('sms-preview-text').textContent = buildSMSPreview(cName);
+
+    pendingCustName  = cName;
+    pendingCustPhone = cPhone;
+
+    const body   = buildSMSBody(cName);
+    const digits = cPhone.replace(/\D/g,'');
+    const number = digits.length === 10 ? `+1${digits}` : `+${digits}`;
+
+    // Use semicolon format for iOS, works on Android too
+    const smsHref = `sms:${number};body=${encodeURIComponent(body)}`;
+    document.getElementById('sms-link').href = smsHref;
+    document.getElementById('sms-preview-text').textContent = body;
     document.getElementById('modal-phone').value = formatPhone(cPhone);
     document.getElementById('send-modal').classList.add('open');
   }
 
   function closeModal() { document.getElementById('send-modal').classList.remove('open'); }
 
-  async function confirmSend() {
-    const custName  = document.getElementById('cust-name').value.trim();
-    const custPhone = document.getElementById('cust-phone').value.trim();
-    setBtnLoading('confirm-btn', true);
-
-    try {
-      if (repId) {
-        // Server-side send (Twilio) + contact save
-        const res = await fetch(`${API_BASE}/sms/send`, {
+  async function handleSend() {
+    // Save contact to database
+    if (repId) {
+      try {
+        await fetch(`${API_BASE}/contacts`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ rep_id: repId, customer_name: custName, customer_phone: custPhone }),
+          body: JSON.stringify({ rep_id: repId, customer_name: pendingCustName, customer_phone: pendingCustPhone }),
         });
-        if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err.error || 'Send failed');
-        }
-      } else {
-        // Fallback: open native SMS if no server
-        const smsBody = buildSMSPreview(custName);
-        const digits  = custPhone.replace(/\D/g,'');
-        window.location.href = `sms:+1${digits}&body=${encodeURIComponent(smsBody)}`, '_blank');
-        // Save contact locally
-        const local = JSON.parse(localStorage.getItem('cs_contacts') || '[]');
-        local.unshift({ name: custName, phone: formatPhone(custPhone), date: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}), ts: Date.now() });
-        localStorage.setItem('cs_contacts', JSON.stringify(local));
-      }
-
+      } catch {}
+    } else {
+      const local = JSON.parse(localStorage.getItem('cs_contacts') || '[]');
+      local.unshift({ name: pendingCustName, phone: formatPhone(pendingCustPhone), date: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}), ts: Date.now() });
+      localStorage.setItem('cs_contacts', JSON.stringify(local));
+    }
+    setTimeout(async () => {
       closeModal();
       document.getElementById('cust-name').value  = '';
       document.getElementById('cust-phone').value = '';
       await loadContacts();
-      showToast('Card sent to ' + custName);
-    } catch (err) {
-      showToast(err.message || 'Send failed', true);
-    } finally {
-      setBtnLoading('confirm-btn', false, 'Confirm & Send');
-    }
+      showToast('Messages app opened!');
+    }, 300);
   }
 
-  // ── Load contacts ──────────────────────────────────────────
   async function loadContacts() {
     let contacts = [];
     try {
@@ -496,7 +462,6 @@
     openSendModal();
   }
 
-  // ── Utilities ──────────────────────────────────────────────
   function getInitials(name) {
     if (!name || !name.trim()) return '?';
     const p = name.trim().split(' ');
@@ -509,7 +474,7 @@
   }
 
   function setStatus(connected) {
-    document.getElementById('status-dot').style.background   = connected ? '#4A7C5A' : '#AA3333';
+    document.getElementById('status-dot').style.background = connected ? '#4A7C5A' : '#AA3333';
     document.getElementById('status-label').textContent = connected ? 'Connected' : 'Not saved';
   }
 
@@ -529,6 +494,10 @@
   }
 
   document.getElementById('send-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js');
+  }
 </script>
 </body>
 </html>
