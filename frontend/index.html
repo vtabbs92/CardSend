@@ -432,7 +432,7 @@
         // Fallback: open native SMS if no server
         const smsBody = buildSMSPreview(custName);
         const digits  = custPhone.replace(/\D/g,'');
-        window.open(`sms:+1${digits}?body=${encodeURIComponent(smsBody)}`, '_blank');
+        window.location.href = `sms:+1${digits}&body=${encodeURIComponent(smsBody)}`, '_blank');
         // Save contact locally
         const local = JSON.parse(localStorage.getItem('cs_contacts') || '[]');
         local.unshift({ name: custName, phone: formatPhone(custPhone), date: new Date().toLocaleDateString('en-US',{month:'short',day:'numeric'}), ts: Date.now() });
