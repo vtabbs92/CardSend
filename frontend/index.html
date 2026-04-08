@@ -23,10 +23,8 @@
     --text3: #999999;
     --accent: #CC0000;
     --accent2: #AA0000;
-    --accent-dark: #FFFFFF;
-    --red: #CC0000;
-    --blue: #1A6FCC;
     --green: #1A8A4A;
+    --blue: #1A6FCC;
     --radius: 16px;
     --radius-sm: 10px;
     --radius-lg: 24px;
@@ -35,51 +33,61 @@
   body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; min-height: 100dvh; overflow-x: hidden; }
   .app { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
 
-  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; padding-top: max(16px, env(safe-area-inset-top)); background: var(--bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
+  /* Top Bar */
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; padding-top: max(14px, env(safe-area-inset-top)); background: var(--bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
   .topbar-logo { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
   .topbar-logo span { color: var(--accent); }
-  .topbar-status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); background: var(--bg2); padding: 6px 12px; border-radius: 100px; border: 1px solid var(--border); }
-  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #CC3333; }
-  .status-dot.connected { background: #1A8A4A; box-shadow: 0 0 6px rgba(26,138,74,0.4); }
+  .topbar-right { display: flex; align-items: center; gap: 8px; }
+  .role-badge { font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 100px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .role-manager { background: rgba(204,0,0,0.08); color: var(--accent); }
+  .role-rep { background: rgba(26,111,204,0.08); color: var(--blue); }
+  .signout-btn { background: none; border: 1px solid var(--border2); color: var(--text3); border-radius: 8px; padding: 5px 12px; font-size: 12px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.15s; }
+  .signout-btn:hover { border-color: var(--accent); color: var(--accent); }
 
+  /* Tab Nav */
   .tab-nav { display: flex; background: var(--bg); border-top: 1px solid var(--border); padding: 8px; padding-bottom: max(8px, env(safe-area-inset-bottom)); position: sticky; bottom: 0; z-index: 50; }
   .tab-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; border: none; background: none; color: var(--text3); cursor: pointer; border-radius: var(--radius-sm); transition: all 0.2s; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
   .tab-btn.active { color: var(--accent); background: rgba(204,0,0,0.06); }
   .tab-btn svg { width: 22px; height: 22px; }
+  .tab-btn.hidden { display: none; }
 
+  /* Content */
   .content { flex: 1; overflow-y: auto; }
   .tab-panel { display: none; padding: 20px; }
   .tab-panel.active { display: block; }
 
-  .biz-card { background: linear-gradient(135deg, #1A1A2E, #16213E, #0F3460); border-radius: var(--radius-lg); padding: 28px; position: relative; overflow: hidden; margin-bottom: 24px; min-height: 200px; border: 1px solid rgba(255,255,255,0.05); }
+  /* Business Card */
+  .biz-card { background: linear-gradient(135deg, #1A1A2E, #16213E, #0F3460); border-radius: var(--radius-lg); padding: 28px; position: relative; overflow: hidden; margin-bottom: 24px; min-height: 190px; border: 1px solid rgba(255,255,255,0.05); }
   .biz-card::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; border-radius: 50%; background: radial-gradient(circle, rgba(204,0,0,0.25) 0%, transparent 70%); }
-  .biz-card::after { content: ''; position: absolute; bottom: -40px; left: -40px; width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%); }
   .biz-card-inner { position: relative; z-index: 1; }
-  .biz-card-top { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 12px; }
-  .biz-card-photo { width: 64px; height: 64px; border-radius: 50%; border: 2px solid rgba(204,0,0,0.5); overflow: hidden; flex-shrink: 0; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; color: #fff; }
+  .biz-card-top { display: flex; align-items: flex-start; gap: 16px; }
+  .biz-card-photo { width: 60px; height: 60px; border-radius: 50%; border: 2px solid rgba(204,0,0,0.5); overflow: hidden; flex-shrink: 0; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: #fff; }
   .biz-card-photo img { width: 100%; height: 100%; object-fit: cover; }
-  .biz-card-name { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 4px; }
-  .biz-card-title { font-size: 11px; font-weight: 500; color: rgba(204,0,0,0.9); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
+  .biz-card-name { font-family: 'Syne', sans-serif; font-size: 21px; font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 3px; }
+  .biz-card-title { font-size: 10px; font-weight: 500; color: rgba(204,0,0,0.9); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
   .biz-card-detail { font-size: 12px; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
-  .biz-card-logo { position: absolute; bottom: 20px; right: 24px; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.15); letter-spacing: 0.1em; text-transform: uppercase; }
+  .biz-card-logo { position: absolute; bottom: 18px; right: 22px; font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.15); letter-spacing: 0.1em; text-transform: uppercase; }
 
-  .section-label { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; color: var(--text2); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  /* Send */
+  .section-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 600; color: var(--text2); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
   .input-row { display: flex; gap: 10px; margin-bottom: 12px; }
-  .input-field { flex: 1; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 14px 16px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text); outline: none; transition: border-color 0.2s; }
+  .input-field { flex: 1; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 13px 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text); outline: none; transition: border-color 0.2s; }
   .input-field::placeholder { color: var(--text3); }
   .input-field:focus { border-color: var(--accent); }
 
-  .btn-accent { width: 100%; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); padding: 16px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.18s; }
+  /* Buttons */
+  .btn-accent { width: 100%; background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); padding: 15px; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.18s; }
   .btn-accent:hover { background: var(--accent2); }
   .btn-accent:active { transform: scale(0.98); }
-  .btn-accent:disabled { background: var(--bg3); color: var(--text3); cursor: not-allowed; }
+  .btn-accent:disabled { background: var(--bg3); color: var(--text3); cursor: not-allowed; transform: none; }
 
+  /* Profile */
   .profile-photo-upload { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding: 16px; background: var(--bg2); border-radius: var(--radius); border: 1px solid var(--border); }
-  .upload-circle { width: 72px; height: 72px; border-radius: 50%; background: var(--bg3); border: 2px dashed var(--border2); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; flex-shrink: 0; transition: border-color 0.2s; }
+  .upload-circle { width: 68px; height: 68px; border-radius: 50%; background: var(--bg3); border: 2px dashed var(--border2); display: flex; align-items: center; justify-content: center; cursor: pointer; overflow: hidden; flex-shrink: 0; transition: border-color 0.2s; }
   .upload-circle:hover { border-color: var(--accent); }
   .upload-circle img { width: 100%; height: 100%; object-fit: cover; }
-  .upload-circle-init { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 700; color: var(--accent); }
-  .upload-info strong { display: block; font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .upload-circle-init { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--accent); }
+  .upload-info strong { display: block; font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
   .upload-info span { font-size: 12px; color: var(--text3); }
   #photo-input { display: none; }
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
@@ -90,19 +98,21 @@
   .form-input::placeholder { color: var(--text3); }
   .form-input:focus { border-color: var(--accent); }
 
-  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-  .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 12px; text-align: center; }
-  .stat-value { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 4px; }
+  /* CRM / Contacts */
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 10px; text-align: center; }
+  .stat-value { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 4px; }
   .stat-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
-  .crm-tabs { display: flex; gap: 4px; margin-bottom: 16px; background: var(--bg2); padding: 4px; border-radius: var(--radius-sm); }
-  .crm-tab { flex: 1; padding: 8px 4px; border: none; background: none; color: var(--text2); font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600; cursor: pointer; border-radius: 8px; transition: all 0.2s; letter-spacing: 0.05em; text-transform: uppercase; }
+  .crm-tabs { display: flex; gap: 4px; margin-bottom: 14px; background: var(--bg2); padding: 4px; border-radius: var(--radius-sm); }
+  .crm-tab { flex: 1; padding: 7px 4px; border: none; background: none; color: var(--text2); font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 600; cursor: pointer; border-radius: 8px; transition: all 0.2s; letter-spacing: 0.04em; text-transform: uppercase; }
   .crm-tab.active { background: var(--accent); color: #fff; }
-  .contact-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; transition: border-color 0.2s; }
+  .contact-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; transition: border-color 0.2s; }
   .contact-card:hover { border-color: var(--border2); }
   .contact-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-  .contact-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--accent); flex-shrink: 0; }
+  .contact-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--accent); flex-shrink: 0; }
   .contact-name { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
   .contact-phone { font-size: 12px; color: var(--text2); }
+  .contact-rep { font-size: 11px; color: var(--text3); margin-top: 1px; }
   .contact-meta { display: flex; align-items: center; justify-content: space-between; }
   .contact-date { font-size: 11px; color: var(--text3); }
   .contact-status { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 100px; letter-spacing: 0.05em; text-transform: uppercase; }
@@ -114,31 +124,61 @@
   .contact-action-btn { flex: 1; background: var(--bg); border: 1px solid var(--border2); color: var(--text2); border-radius: 8px; padding: 8px; font-size: 12px; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.15s; text-align: center; }
   .contact-action-btn:hover { border-color: var(--accent); color: var(--accent); }
 
+  /* Manager Dashboard */
+  .dash-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+  .dash-stat { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; }
+  .dash-stat-value { font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 4px; }
+  .dash-stat-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
+  .panel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
+  .panel-header { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .panel-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); }
+  .panel-body { padding: 4px 16px 16px; }
+  .rep-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .rep-row:last-child { border-bottom: none; }
+  .rep-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--bg3); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent); flex-shrink: 0; }
+  .rep-name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .rep-email { font-size: 12px; color: var(--text2); }
+  .rep-count { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--accent); text-align: right; }
+  .rep-count-label { font-size: 10px; color: var(--text3); text-align: right; }
+  .rank-badge { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+  .rank-1 { background: #FFD700; color: #7A5800; }
+  .rank-2 { background: #C0C0C0; color: #444; }
+  .rank-3 { background: #CD7F32; color: #5A2D00; }
+  .rank-other { background: var(--bg3); color: var(--text3); }
+  .activity-bar { height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; margin-top: 4px; }
+  .activity-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s; }
+  .invite-row { display: flex; gap: 8px; margin-top: 4px; }
+  .invite-input { flex: 1; background: var(--bg); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 10px 12px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.2s; }
+  .invite-input:focus { border-color: var(--accent); }
+  .invite-btn { background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); padding: 10px 16px; font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  .invite-btn:hover { background: var(--accent2); }
+
+  /* Modal */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; align-items: flex-end; justify-content: center; backdrop-filter: blur(4px); }
   .modal-overlay.open { display: flex; }
-  .modal { background: var(--bg); border-radius: var(--radius-lg) var(--radius-lg) 0 0; width: 100%; max-width: 500px; overflow: hidden; animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1); border: 1px solid var(--border2); border-bottom: none; max-height: 90vh; overflow-y: auto; }
+  .modal { background: var(--bg); border-radius: var(--radius-lg) var(--radius-lg) 0 0; width: 100%; max-width: 500px; animation: slideUp 0.3s cubic-bezier(0.34,1.56,0.64,1); border: 1px solid var(--border2); border-bottom: none; max-height: 90vh; overflow-y: auto; }
   @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
   .modal-handle { width: 40px; height: 4px; background: var(--border2); border-radius: 2px; margin: 12px auto 0; }
-  .modal-header { padding: 16px 20px 0; }
-  .modal-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-  .modal-subtitle { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
+  .modal-header { padding: 14px 20px 0; }
+  .modal-title { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .modal-subtitle { font-size: 13px; color: var(--text2); margin-bottom: 14px; }
   .modal-body { padding: 0 20px 20px; }
-  .sms-preview-box { background: var(--bg2); border-radius: var(--radius-sm); padding: 14px; font-size: 13px; color: var(--text2); line-height: 1.7; margin-bottom: 16px; white-space: pre-wrap; border: 1px solid var(--border); max-height: 180px; overflow-y: auto; }
+  .sms-preview-box { background: var(--bg2); border-radius: var(--radius-sm); padding: 14px; font-size: 13px; color: var(--text2); line-height: 1.7; margin-bottom: 14px; white-space: pre-wrap; border: 1px solid var(--border); max-height: 160px; overflow-y: auto; }
   .modal-actions { display: flex; gap: 10px; }
-  .btn-cancel { flex: 1; background: var(--bg2); color: var(--text2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 14px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .btn-cancel { flex: 1; background: var(--bg2); color: var(--text2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 13px; font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; }
   .detail-field { margin-bottom: 14px; }
   .detail-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
-  .detail-select { width: 100%; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 12px 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text); outline: none; }
-  .detail-textarea { width: 100%; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 12px 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text); outline: none; resize: none; min-height: 80px; line-height: 1.5; }
-  .detail-textarea::placeholder { color: var(--text3); }
-  .detail-textarea:focus, .detail-select:focus { border-color: var(--accent); }
+  .detail-select { width: 100%; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 11px 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text); outline: none; }
+  .detail-textarea { width: 100%; background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 11px 14px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text); outline: none; resize: none; min-height: 80px; line-height: 1.5; }
+  .detail-textarea::placeholder, .detail-select:focus, .detail-textarea:focus { border-color: var(--accent); }
 
-  #toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(40px); background: #111; color: #fff; padding: 12px 20px; border-radius: 100px; font-size: 13px; font-weight: 500; z-index: 999; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); opacity: 0; white-space: nowrap; }
+  /* Toast */
+  #toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(40px); background: #111; color: #fff; padding: 11px 20px; border-radius: 100px; font-size: 13px; font-weight: 500; z-index: 999; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1); opacity: 0; white-space: nowrap; max-width: 90vw; text-align: center; }
   #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-  .empty-state { text-align: center; padding: 48px 20px; color: var(--text3); }
-  .empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
-  .empty-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 600; color: var(--text2); margin-bottom: 8px; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--text3); }
+  .empty-icon { font-size: 40px; margin-bottom: 10px; opacity: 0.4; }
+  .empty-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; color: var(--text2); margin-bottom: 6px; }
   .empty-text { font-size: 13px; line-height: 1.6; }
 
   .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
@@ -150,9 +190,9 @@
 
   <div class="topbar">
     <div class="topbar-logo">Card<span>Send</span></div>
-    <div class="topbar-status">
-      <div class="status-dot" id="status-dot"></div>
-      <span id="status-label">Not saved</span>
+    <div class="topbar-right">
+      <div class="role-badge" id="role-badge"></div>
+      <button class="signout-btn" onclick="signOut()">Sign out</button>
     </div>
   </div>
 
@@ -171,21 +211,20 @@
               <div class="biz-card-name" id="card-name">Your Name</div>
               <div class="biz-card-title" id="card-title">Sales Associate</div>
               <div id="card-store-row" style="display:none;" class="biz-card-detail"><span>📍</span><span id="card-store"></span></div>
-              <div id="card-phone-row" style="display:none;" class="biz-card-detail"><span>📞</span><span id="card-phone"></span></div>
-              <div id="card-email-row" style="display:none;" class="biz-card-detail"><span>✉️</span><span id="card-email"></span></div>
+              <div id="card-phone-row" style="display:none;" class="biz-card-detail"><span>📞</span><span id="card-phone-val"></span></div>
+              <div id="card-email-row" style="display:none;" class="biz-card-detail"><span>✉️</span><span id="card-email-val"></span></div>
             </div>
           </div>
         </div>
         <div class="biz-card-logo">Regency</div>
       </div>
-
       <div class="section-label">Send to customer</div>
       <div class="input-row">
         <input type="text" class="input-field" id="cust-name" placeholder="Customer name">
         <input type="tel" class="input-field" id="cust-phone" placeholder="Phone number">
       </div>
       <button class="btn-accent" onclick="openSendModal()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         Send My Card
       </button>
     </div>
@@ -203,11 +242,35 @@
         <button class="crm-tab" onclick="filterContacts('following',this)">Following</button>
         <button class="crm-tab" onclick="filterContacts('purchased',this)">Purchased</button>
       </div>
-      <div id="contact-list">
-        <div class="empty-state">
-          <div class="empty-icon">👥</div>
-          <div class="empty-title">No contacts yet</div>
-          <div class="empty-text">Send your card to a customer and they'll appear here automatically.</div>
+      <div id="contact-list"></div>
+    </div>
+
+    <!-- DASHBOARD TAB (managers only) -->
+    <div class="tab-panel" id="tab-dashboard">
+      <div class="dash-stats">
+        <div class="dash-stat"><div class="dash-stat-value" id="d-reps">0</div><div class="dash-stat-label">Total Reps</div></div>
+        <div class="dash-stat"><div class="dash-stat-value" id="d-cards">0</div><div class="dash-stat-label">Cards Sent</div></div>
+        <div class="dash-stat"><div class="dash-stat-value" id="d-today">0</div><div class="dash-stat-label">Today</div></div>
+        <div class="dash-stat"><div class="dash-stat-value" id="d-week">0</div><div class="dash-stat-label">This Week</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title">🏆 Leaderboard</div></div>
+        <div class="panel-body" id="leaderboard"><div class="empty-state"><div class="empty-text">Loading...</div></div></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title">✉️ Invite a Rep</div></div>
+        <div class="panel-body">
+          <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6;">Enter a rep's email then tap Invite — a signup link will be copied to your clipboard to send them.</p>
+          <div class="invite-row">
+            <input type="email" class="invite-input" id="invite-email" placeholder="rep@regency.com">
+            <button class="invite-btn" onclick="inviteRep()">Invite</button>
+          </div>
+          <div style="margin-top:16px;">
+            <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;">All Reps</div>
+            <div id="reps-list"><div class="empty-state"><div class="empty-text">Loading...</div></div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -222,7 +285,7 @@
         <input type="file" id="photo-input" accept="image/*" onchange="handlePhotoUpload(event)">
         <div class="upload-info">
           <strong>Profile Photo</strong>
-          <span>Tap to upload a headshot.<br>Shows on your digital card.</span>
+          <span>Tap to upload a headshot.</span>
         </div>
       </div>
       <div class="form-grid">
@@ -230,7 +293,7 @@
         <div class="form-field full"><div class="form-label">Title</div><input type="text" class="form-input" id="rep-title" placeholder="e.g. Senior Sales Associate" oninput="updatePreview()"></div>
         <div class="form-field full"><div class="form-label">Store Location</div><input type="text" class="form-input" id="rep-store" placeholder="e.g. Capitol Heights, MD" oninput="updatePreview()"></div>
         <div class="form-field"><div class="form-label">Phone</div><input type="tel" class="form-input" id="rep-phone" placeholder="(555) 000-0000" oninput="updatePreview()"></div>
-        <div class="form-field"><div class="form-label">Email</div><input type="email" class="form-input" id="rep-email" placeholder="you@store.com" oninput="updatePreview()"></div>
+        <div class="form-field"><div class="form-label">Email</div><input type="email" class="form-input" id="rep-email" placeholder="you@regency.com" oninput="updatePreview()"></div>
       </div>
       <button class="btn-accent" onclick="saveProfile()"><span id="save-btn-content">Save Profile</span></button>
     </div>
@@ -238,15 +301,19 @@
   </div>
 
   <div class="tab-nav">
-    <button class="tab-btn active" onclick="switchTab('send',this)">
+    <button class="tab-btn active" id="nav-send" onclick="switchTab('send',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       Send
     </button>
-    <button class="tab-btn" onclick="switchTab('contacts',this)">
+    <button class="tab-btn" id="nav-contacts" onclick="switchTab('contacts',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       Contacts
     </button>
-    <button class="tab-btn" onclick="switchTab('profile',this)">
+    <button class="tab-btn hidden" id="nav-dashboard" onclick="switchTab('dashboard',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </button>
+    <button class="tab-btn" id="nav-profile" onclick="switchTab('profile',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       Profile
     </button>
@@ -260,7 +327,7 @@
     <div class="modal-handle"></div>
     <div class="modal-header">
       <div class="modal-title">Preview & Send</div>
-      <div class="modal-subtitle" id="modal-to">Sending to —</div>
+      <div class="modal-subtitle" id="modal-to"></div>
     </div>
     <div class="modal-body">
       <div class="sms-preview-box" id="sms-preview"></div>
@@ -292,7 +359,7 @@
       </div>
       <div class="detail-field">
         <div class="detail-label">Interested In</div>
-        <input type="text" class="form-input" id="crm-interest" placeholder="e.g. Sectional sofa, queen bed frame...">
+        <input type="text" class="form-input" id="crm-interest" placeholder="e.g. Sectional sofa, queen bed...">
       </div>
       <div class="detail-field">
         <div class="detail-label">Notes</div>
@@ -308,9 +375,16 @@
 
 <div id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+  const SUPABASE_URL = 'https://pdajbnuexprwnwulcqsz.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_3zKnA2FrW_kchD0IErIJ1w_T_NZHowb';
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const API_BASE = 'https://cardsend-backend.onrender.com/api';
-  let repId = localStorage.getItem('cs_rep_id') || null;
+
+  let currentUser = null;
+  let currentProfile = null;
+  let repId = null;
   let profilePhoto = '';
   let allContacts = [];
   let currentFilter = 'all';
@@ -319,18 +393,55 @@
   let pendingCustPhone = '';
   let crmData = JSON.parse(localStorage.getItem('cs_crm') || '{}');
 
+  // ── Init ──
   (async () => {
-    if (repId) { await loadProfile(); await loadContacts(); setStatus(true); }
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) { window.location.href = 'login.html'; return; }
+    currentUser = session.user;
+    const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+    currentProfile = profile;
+
+    if (profile?.role === 'manager') {
+      document.getElementById('role-badge').textContent = 'Manager';
+      document.getElementById('role-badge').className = 'role-badge role-manager';
+      document.getElementById('nav-dashboard').classList.remove('hidden');
+    } else {
+      document.getElementById('role-badge').textContent = 'Rep';
+      document.getElementById('role-badge').className = 'role-badge role-rep';
+    }
+
+    // Load saved rep profile from backend
+    repId = localStorage.getItem('cs_rep_id');
+    if (repId) {
+      await loadProfile();
+    } else {
+      // Try to find rep by email
+      try {
+        const res = await fetch(`${API_BASE}/reps`);
+      } catch {}
+    }
+    await loadContacts();
+    if (profile?.role === 'manager') await loadDashboard();
   })();
 
+  // ── Tab Switching ──
   function switchTab(tab, btn) {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('tab-' + tab).classList.add('active');
     btn.classList.add('active');
     if (tab === 'contacts') loadContacts();
+    if (tab === 'dashboard') loadDashboard();
   }
 
+  // ── Auth ──
+  async function signOut() {
+    await sb.auth.signOut();
+    localStorage.removeItem('cs_rep_id');
+    window.location.href = 'login.html';
+  }
+
+  // ── Profile ──
   async function loadProfile() {
     try {
       const res = await fetch(`${API_BASE}/reps/${repId}`);
@@ -350,21 +461,28 @@
     const name = document.getElementById('rep-name').value.trim();
     if (!name) { showToast('Enter your name first'); return; }
     setBtnLoading('save-btn-content', true);
-    const payload = { name, title: document.getElementById('rep-title').value.trim(), store_location: document.getElementById('rep-store').value.trim(), phone: document.getElementById('rep-phone').value.trim(), email: document.getElementById('rep-email').value.trim() };
+    const payload = {
+      name,
+      title:          document.getElementById('rep-title').value.trim(),
+      store_location: document.getElementById('rep-store').value.trim(),
+      phone:          document.getElementById('rep-phone').value.trim(),
+      email:          document.getElementById('rep-email').value.trim(),
+    };
     try {
       let res;
-      if (repId) { res = await fetch(`${API_BASE}/reps/${repId}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); }
-      else { res = await fetch(`${API_BASE}/reps`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); }
+      if (repId) {
+        res = await fetch(`${API_BASE}/reps/${repId}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      } else {
+        res = await fetch(`${API_BASE}/reps`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      }
       if (!res.ok) throw new Error();
       const rep = await res.json();
       repId = rep.id;
       localStorage.setItem('cs_rep_id', repId);
-      setStatus(true);
       showToast('✓ Profile saved');
-    } catch {
-      localStorage.setItem('cs_profile', JSON.stringify(payload));
-      showToast('Saved locally');
-    } finally { setBtnLoading('save-btn-content', false, 'Save Profile'); }
+      updatePreview();
+    } catch { showToast('Could not save — check connection'); }
+    finally { setBtnLoading('save-btn-content', false, 'Save Profile'); }
   }
 
   async function handlePhotoUpload(e) {
@@ -405,11 +523,12 @@
     document.getElementById('card-title').textContent = title || 'Sales Associate';
     const show = (rowId, valId, val) => { document.getElementById(rowId).style.display = val ? 'flex' : 'none'; if (val) document.getElementById(valId).textContent = val; };
     show('card-store-row','card-store',store);
-    show('card-phone-row','card-phone',phone);
-    show('card-email-row','card-email',email);
+    show('card-phone-row','card-phone-val',phone);
+    show('card-email-row','card-email-val',email);
     if (!profilePhoto) { const i = getInitials(name); document.getElementById('profile-init').textContent = i; document.getElementById('card-init').textContent = i; }
   }
 
+  // ── Send ──
   function buildMessage(custName) {
     const name  = document.getElementById('rep-name').value.trim() || 'Your Sales Associate';
     const title = document.getElementById('rep-title').value.trim();
@@ -434,7 +553,7 @@
     if (!cPhone) { showToast('Enter customer phone'); return; }
     if (cPhone.replace(/\D/g,'').length < 10) { showToast('Enter valid phone number'); return; }
     pendingCustName = cName; pendingCustPhone = cPhone;
-    const body = buildMessage(cName);
+    const body   = buildMessage(cName);
     const digits = cPhone.replace(/\D/g,'');
     const number = digits.length === 10 ? `+1${digits}` : `+${digits}`;
     document.getElementById('sms-link').href = 'sms:' + number + '?body=' + encodeURIComponent(body);
@@ -450,7 +569,13 @@
     const body = document.getElementById('sms-link').dataset.body || '';
     try { await navigator.clipboard.writeText(body); } catch {}
     if (repId) {
-      try { await fetch(`${API_BASE}/contacts`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ rep_id: repId, customer_name: pendingCustName, customer_phone: pendingCustPhone }) }); } catch {}
+      try {
+        await fetch(`${API_BASE}/contacts`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rep_id: repId, customer_name: pendingCustName, customer_phone: pendingCustPhone }),
+        });
+      } catch {}
     } else {
       const local = JSON.parse(localStorage.getItem('cs_contacts') || '[]');
       local.unshift({ customer_name: pendingCustName, customer_phone: formatPhone(pendingCustPhone), sent_at: new Date().toISOString() });
@@ -465,17 +590,22 @@
     }, 200);
   }
 
+  // ── Contacts ──
   async function loadContacts() {
     try {
-      if (repId) { const res = await fetch(`${API_BASE}/contacts?rep_id=${repId}`); if (res.ok) allContacts = await res.json(); }
-      else { allContacts = JSON.parse(localStorage.getItem('cs_contacts') || '[]'); }
+      if (repId) {
+        const res = await fetch(`${API_BASE}/contacts?rep_id=${repId}`);
+        if (res.ok) allContacts = await res.json();
+      } else {
+        allContacts = JSON.parse(localStorage.getItem('cs_contacts') || '[]');
+      }
     } catch { allContacts = []; }
     updateStats();
     renderContacts(currentFilter);
   }
 
   function updateStats() {
-    document.getElementById('stat-total').textContent = allContacts.length;
+    document.getElementById('stat-total').textContent     = allContacts.length;
     document.getElementById('stat-followup').textContent  = allContacts.filter(c => (crmData[c.id||c.customer_phone]||{}).status === 'following').length;
     document.getElementById('stat-purchased').textContent = allContacts.filter(c => (crmData[c.id||c.customer_phone]||{}).status === 'purchased').length;
   }
@@ -518,7 +648,7 @@
           <button class="contact-action-btn" onclick="openCrmModal('${key}','${c.customer_name}','${c.customer_phone}')">✏️ Edit</button>
           <button class="contact-action-btn" onclick="callContact('${c.customer_phone}')">📞 Call</button>
         </div>
-        ${crm.notes ? `<div style="background:var(--bg2);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--text2);margin-top:10px;line-height:1.5;">${crm.notes}</div>` : ''}
+        ${crm.notes ? `<div style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--text2);margin-top:10px;line-height:1.5;">${crm.notes}</div>` : ''}
       </div>`;
     }).join('');
   }
@@ -528,10 +658,11 @@
   function resendTo(name, phone) {
     document.getElementById('cust-name').value  = name;
     document.getElementById('cust-phone').value = phone;
-    switchTab('send', document.querySelectorAll('.tab-btn')[0]);
+    switchTab('send', document.getElementById('nav-send'));
     setTimeout(() => openSendModal(), 100);
   }
 
+  // ── CRM Modal ──
   function openCrmModal(key, name, phone) {
     editingContactId = key;
     const crm = crmData[key] || {};
@@ -555,6 +686,63 @@
     showToast('✓ Contact updated');
   }
 
+  // ── Manager Dashboard ──
+  async function loadDashboard() {
+    try {
+      const { data: reps }     = await sb.from('profiles').select('id, full_name, email, created_at').eq('role', 'rep');
+      const { data: contacts } = await sb.from('contacts').select('id, rep_id, sent_at');
+      const today   = new Date(); today.setHours(0,0,0,0);
+      const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
+
+      document.getElementById('d-reps').textContent  = reps?.length || 0;
+      document.getElementById('d-cards').textContent = contacts?.length || 0;
+      document.getElementById('d-today').textContent = contacts?.filter(c => new Date(c.sent_at) >= today).length || 0;
+      document.getElementById('d-week').textContent  = contacts?.filter(c => new Date(c.sent_at) >= weekAgo).length || 0;
+
+      // Leaderboard
+      if (reps && contacts) {
+        const counts = {};
+        contacts.forEach(c => { counts[c.rep_id] = (counts[c.rep_id] || 0) + 1; });
+        const ranked = reps.map(r => ({ ...r, count: counts[r.id] || 0 })).sort((a,b) => b.count - a.count);
+        const max = ranked[0]?.count || 1;
+        const rankClasses = ['rank-1','rank-2','rank-3'];
+        document.getElementById('leaderboard').innerHTML = ranked.length ? ranked.map((r,i) => `
+          <div class="rep-row">
+            <div class="rank-badge ${rankClasses[i]||'rank-other'}">${i+1}</div>
+            <div class="rep-avatar">${getInitials(r.full_name||r.email)}</div>
+            <div style="flex:1">
+              <div class="rep-name">${r.full_name || r.email}</div>
+              <div class="activity-bar"><div class="activity-fill" style="width:${(r.count/max*100).toFixed(0)}%"></div></div>
+            </div>
+            <div><div class="rep-count">${r.count}</div><div class="rep-count-label">cards</div></div>
+          </div>`).join('') : '<div class="empty-state"><div class="empty-text">No reps yet</div></div>';
+      }
+
+      // Reps list
+      if (reps) {
+        document.getElementById('reps-list').innerHTML = reps.length ? reps.map(r => `
+          <div class="rep-row">
+            <div class="rep-avatar">${getInitials(r.full_name||r.email)}</div>
+            <div style="flex:1">
+              <div class="rep-name">${r.full_name || 'No name set'}</div>
+              <div class="rep-email">${r.email}</div>
+            </div>
+            <div style="font-size:11px;color:var(--text3);">${new Date(r.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
+          </div>`).join('') : '<div class="empty-state"><div class="empty-text">No reps have signed up yet</div></div>';
+      }
+    } catch(e) { console.error(e); }
+  }
+
+  async function inviteRep() {
+    const email = document.getElementById('invite-email').value.trim();
+    if (!email) { showToast('Enter an email address'); return; }
+    const link = window.location.origin + '/login.html';
+    try { await navigator.clipboard.writeText(link); } catch {}
+    showToast('✓ Link copied! Send to ' + email);
+    document.getElementById('invite-email').value = '';
+  }
+
+  // ── Utilities ──
   function getInitials(name) {
     if (!name||!name.trim()) return '?';
     const p = name.trim().split(' ');
@@ -564,11 +752,6 @@
   function formatPhone(raw) {
     const d = raw.replace(/\D/g,'');
     return d.length===10 ? `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}` : raw;
-  }
-
-  function setStatus(connected) {
-    document.getElementById('status-dot').className = 'status-dot' + (connected ? ' connected' : '');
-    document.getElementById('status-label').textContent = connected ? 'Connected' : 'Not saved';
   }
 
   function showToast(msg) {
