@@ -410,16 +410,19 @@
       document.getElementById('role-badge').className = 'role-badge role-rep';
     }
 
-    // Load saved rep profile from backend
+    // Load rep profile — first try by user_id, then by localStorage
     repId = localStorage.getItem('cs_rep_id');
-    if (repId) {
-      await loadProfile();
-    } else {
-      // Try to find rep by email
+    if (!repId && currentUser) {
       try {
-        const res = await fetch(`${API_BASE}/reps`);
+        const res = await fetch(`${API_BASE}/reps/by-user/${currentUser.id}`);
+        if (res.ok) {
+          const rep = await res.json();
+          repId = rep.id;
+          localStorage.setItem('cs_rep_id', repId);
+        }
       } catch {}
     }
+    if (repId) await loadProfile();
     await loadContacts();
     if (profile?.role === 'manager') await loadDashboard();
   })();
@@ -473,6 +476,7 @@
       if (repId) {
         res = await fetch(`${API_BASE}/reps/${repId}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       } else {
+        payload.user_id = currentUser?.id;
         res = await fetch(`${API_BASE}/reps`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
       }
       if (!res.ok) throw new Error();
