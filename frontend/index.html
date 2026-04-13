@@ -422,7 +422,10 @@
         }
       } catch {}
     }
-    if (repId) await loadProfile();
+    // Load from cache instantly for fast display
+    loadProfileFromCache();
+    // Then update from server in background
+    if (repId) loadProfile();
     await loadContacts();
     if (profile?.role === 'manager') await loadDashboard();
   })();
@@ -445,6 +448,18 @@
   }
 
   // ── Profile ──
+  function loadProfileFromCache() {
+    const cached = JSON.parse(localStorage.getItem('cs_profile_cache') || '{}');
+    if (!cached.name) return;
+    document.getElementById('rep-name').value  = cached.name  || '';
+    document.getElementById('rep-title').value = cached.title || '';
+    document.getElementById('rep-store').value = cached.store_location || '';
+    document.getElementById('rep-phone').value = cached.phone || '';
+    document.getElementById('rep-email').value = cached.email || '';
+    if (cached.photo_url) setPhoto(cached.photo_url);
+    updatePreview();
+  }
+
   async function loadProfile() {
     try {
       const res = await fetch(`${API_BASE}/reps/${repId}`);
@@ -457,6 +472,8 @@
       document.getElementById('rep-email').value = rep.email || '';
       if (rep.photo_url) setPhoto(rep.photo_url);
       updatePreview();
+      // Save to cache for instant load next time
+      localStorage.setItem('cs_profile_cache', JSON.stringify(rep));
     } catch {}
   }
 
@@ -485,6 +502,7 @@
       localStorage.setItem('cs_rep_id', repId);
       showToast('✓ Profile saved');
       updatePreview();
+      localStorage.setItem('cs_profile_cache', JSON.stringify({ ...payload, photo_url: profilePhoto }));
     } catch { showToast('Could not save — check connection'); }
     finally { setBtnLoading('save-btn-content', false, 'Save Profile'); }
   }
