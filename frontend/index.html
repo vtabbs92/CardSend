@@ -711,48 +711,51 @@
   // ── Manager Dashboard ──
   async function loadDashboard() {
     try {
-      const { data: reps }     = await sb.from('profiles').select('id, full_name, email, created_at').eq('role', 'rep');
-      const { data: contacts } = await sb.from('contacts').select('id, rep_id, sent_at');
+      // Get all reps from the reps table (backend) via API
+      const repsRes = await fetch(`${API_BASE}/reps/all`);
+      const allReps = repsRes.ok ? await repsRes.json() : [];
+
+      // Get all contacts
+      const contactsRes = await fetch(`${API_BASE}/contacts/all`);
+      const allContacts = contactsRes.ok ? await contactsRes.json() : [];
+
       const today   = new Date(); today.setHours(0,0,0,0);
       const weekAgo = new Date(); weekAgo.setDate(weekAgo.getDate() - 7);
 
-      document.getElementById('d-reps').textContent  = reps?.length || 0;
-      document.getElementById('d-cards').textContent = contacts?.length || 0;
-      document.getElementById('d-today').textContent = contacts?.filter(c => new Date(c.sent_at) >= today).length || 0;
-      document.getElementById('d-week').textContent  = contacts?.filter(c => new Date(c.sent_at) >= weekAgo).length || 0;
+      document.getElementById('d-reps').textContent  = allReps.length;
+      document.getElementById('d-cards').textContent = allContacts.length;
+      document.getElementById('d-today').textContent = allContacts.filter(c => new Date(c.sent_at) >= today).length;
+      document.getElementById('d-week').textContent  = allContacts.filter(c => new Date(c.sent_at) >= weekAgo).length;
 
       // Leaderboard
-      if (reps && contacts) {
-        const counts = {};
-        contacts.forEach(c => { counts[c.rep_id] = (counts[c.rep_id] || 0) + 1; });
-        const ranked = reps.map(r => ({ ...r, count: counts[r.id] || 0 })).sort((a,b) => b.count - a.count);
-        const max = ranked[0]?.count || 1;
-        const rankClasses = ['rank-1','rank-2','rank-3'];
-        document.getElementById('leaderboard').innerHTML = ranked.length ? ranked.map((r,i) => `
-          <div class="rep-row">
-            <div class="rank-badge ${rankClasses[i]||'rank-other'}">${i+1}</div>
-            <div class="rep-avatar">${getInitials(r.full_name||r.email)}</div>
-            <div style="flex:1">
-              <div class="rep-name">${r.full_name || r.email}</div>
-              <div class="activity-bar"><div class="activity-fill" style="width:${(r.count/max*100).toFixed(0)}%"></div></div>
-            </div>
-            <div><div class="rep-count">${r.count}</div><div class="rep-count-label">cards</div></div>
-          </div>`).join('') : '<div class="empty-state"><div class="empty-text">No reps yet</div></div>';
-      }
+      const counts = {};
+      allContacts.forEach(c => { counts[c.rep_id] = (counts[c.rep_id] || 0) + 1; });
+      const ranked = allReps.map(r => ({ ...r, count: counts[r.id] || 0 })).sort((a,b) => b.count - a.count);
+      const max = ranked[0]?.count || 1;
+      const rankClasses = ['rank-1','rank-2','rank-3'];
+      document.getElementById('leaderboard').innerHTML = ranked.length ? ranked.map((r,i) => `
+        <div class="rep-row">
+          <div class="rank-badge ${rankClasses[i]||'rank-other'}">${i+1}</div>
+          <div class="rep-avatar">${getInitials(r.name||r.email)}</div>
+          <div style="flex:1">
+            <div class="rep-name">${r.name || r.email || 'Unknown'}</div>
+            <div class="activity-bar"><div class="activity-fill" style="width:${(r.count/max*100).toFixed(0)}%"></div></div>
+          </div>
+          <div><div class="rep-count">${r.count}</div><div class="rep-count-label">cards</div></div>
+        </div>`).join('') : '<div class="empty-state"><div class="empty-text">No reps yet</div></div>';
 
       // Reps list
-      if (reps) {
-        document.getElementById('reps-list').innerHTML = reps.length ? reps.map(r => `
-          <div class="rep-row">
-            <div class="rep-avatar">${getInitials(r.full_name||r.email)}</div>
-            <div style="flex:1">
-              <div class="rep-name">${r.full_name || 'No name set'}</div>
-              <div class="rep-email">${r.email}</div>
-            </div>
-            <div style="font-size:11px;color:var(--text3);">${new Date(r.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
-          </div>`).join('') : '<div class="empty-state"><div class="empty-text">No reps have signed up yet</div></div>';
-      }
-    } catch(e) { console.error(e); }
+      document.getElementById('reps-list').innerHTML = allReps.length ? allReps.map(r => `
+        <div class="rep-row">
+          <div class="rep-avatar">${getInitials(r.name||r.email)}</div>
+          <div style="flex:1">
+            <div class="rep-name">${r.name || 'No name set'}</div>
+            <div class="rep-email">${r.email || ''}</div>
+          </div>
+          <div style="font-size:11px;color:var(--text3);">${r.created_at ? new Date(r.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'}) : ''}</div>
+        </div>`).join('') : '<div class="empty-state"><div class="empty-text">No reps have signed up yet</div></div>';
+
+    } catch(e) { console.error('Dashboard error:', e); }
   }
 
   async function inviteRep() {
