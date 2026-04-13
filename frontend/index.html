@@ -410,22 +410,27 @@
       document.getElementById('role-badge').className = 'role-badge role-rep';
     }
 
-    // Load rep profile — first try by user_id, then by localStorage
-    repId = localStorage.getItem('cs_rep_id');
-    if (!repId && currentUser) {
+    // Always look up by user ID first for reliability
+    if (currentUser) {
       try {
         const res = await fetch(`${API_BASE}/reps/by-user/${currentUser.id}`);
         if (res.ok) {
           const rep = await res.json();
           repId = rep.id;
           localStorage.setItem('cs_rep_id', repId);
+          localStorage.setItem('cs_profile_cache', JSON.stringify(rep));
+          // Load profile fields directly
+          document.getElementById('rep-name').value  = rep.name  || '';
+          document.getElementById('rep-title').value = rep.title || '';
+          document.getElementById('rep-store').value = rep.store_location || '';
+          document.getElementById('rep-phone').value = rep.phone || '';
+          document.getElementById('rep-email').value = rep.email || '';
+          if (rep.photo_url) setPhoto(rep.photo_url);
+          updatePreview();
         }
       } catch {}
     }
-    // Load from cache instantly for fast display
-    loadProfileFromCache();
-    // Then update from server in background
-    if (repId) loadProfile();
+    if (!repId) repId = localStorage.getItem('cs_rep_id');
     await loadContacts();
     if (profile?.role === 'manager') await loadDashboard();
   })();
