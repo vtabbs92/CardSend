@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./keepalive');
 const express  = require('express');
 const cors     = require('cors');
 
@@ -10,7 +11,7 @@ const app  = express();
 const PORT = process.env.PORT || 4000;
 
 // ── Middleware ────────────────────────────────────────────────
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: process.env.FRONTEND_URL || '*' }));
 app.use(express.json());
 
 // ── Routes ────────────────────────────────────────────────────
