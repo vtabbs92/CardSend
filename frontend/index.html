@@ -424,7 +424,21 @@
     const { data: { session } } = await sb.auth.getSession();
     if (!session) { window.location.href = 'login.html'; return; }
     currentUser = session.user;
-    const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+    // Check role from database with multiple fallbacks
+    let { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+    if (!profile && currentUser.email) {
+      const { data: p2 } = await sb.from('profiles').select('*').eq('email', currentUser.email).single();
+      profile = p2;
+    }
+    // Manager email list — add manager emails here
+    const MANAGER_EMAILS = ['victortabbs1992@gmail.com'];
+    if (!profile || !profile.role) {
+      profile = { ...profile, role: MANAGER_EMAILS.includes(currentUser.email) ? 'manager' : 'rep' };
+    }
+    // Force correct role even if DB returns wrong value
+    if (MANAGER_EMAILS.includes(currentUser.email)) {
+      profile = { ...profile, role: 'manager' };
+    }
     currentProfile = profile;
 
     if (profile?.role === 'manager') {
