@@ -259,6 +259,32 @@
         <div class="panel-body" id="leaderboard"><div class="empty-state"><div class="empty-text">Loading...</div></div></div>
       </div>
 
+      <!-- Export Contacts Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">📤 Export Contacts</div>
+        </div>
+        <div class="panel-body">
+          <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6;">Download your full contact list for your marketing team to use for retargeting campaigns on Facebook, Google, and email.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="invite-btn" onclick="exportCSV()" style="background:var(--accent);">⬇ Download CSV</button>
+            <button class="invite-btn" onclick="exportFacebook()" style="background:#1877F2;">📘 Facebook Audience</button>
+          </div>
+          <p style="font-size:11px;color:var(--text3);margin-top:10px;">CSV includes: name, phone, rep, date, status. Facebook format includes phone numbers only (hashed for privacy).</p>
+        </div>
+      </div>
+
+      <!-- Analytics Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">📈 Rep Analytics</div>
+          <button onclick="loadDashboard()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px;">↻</button>
+        </div>
+        <div class="panel-body" id="analytics-panel">
+          <div class="empty-state"><div class="empty-text">Loading...</div></div>
+        </div>
+      </div>
+
       <div class="panel">
         <div class="panel-header"><div class="panel-title">✉️ Invite a Rep</div></div>
         <div class="panel-body">
@@ -750,6 +776,9 @@
         </div>`).join('') : '<div class="empty-state"><div class="empty-text">No reps yet</div></div>';
 
       // Reps list
+      // Load analytics
+      await loadAnalytics(allReps, allContacts);
+
       document.getElementById('reps-list').innerHTML = allReps.length ? allReps.map(r => `
         <div class="rep-row">
           <div class="rep-avatar">${getInitials(r.name||r.email)}</div>
@@ -801,6 +830,149 @@
 
   document.getElementById('send-modal').addEventListener('click', e => { if (e.target===e.currentTarget) closeModal(); });
   document.getElementById('crm-modal').addEventListener('click',  e => { if (e.target===e.currentTarget) closeCrmModal(); });
+
+  // ── Export Functions ──
+  async function exportCSV() {
+    try {
+      const res = await fetch(`${API_BASE}/contacts/all`);
+      if (!res.ok) { showToast('Could not load contacts'); return; }
+      const contacts = await res.json();
+      const repsRes = await fetch(`${API_BASE}/reps/all`);
+      const reps = repsRes.ok ? await repsRes.json() : [];
+      const repMap = {};
+      reps.forEach(r => { repMap[r.id] = r.name; });
+
+      const rows = [['Name', 'Phone', 'Rep', 'Date', 'Status', 'Notes', 'Interested In']];
+      contacts.forEach(c => {
+        const crm = crmData[c.id || c.customer_phone] || {};
+        rows.push([
+          c.customer_name || '',
+          c.customer_phone || '',
+          repMap[c.rep_id] || '',
+          c.sent_at ? new Date(c.sent_at).toLocaleDateString() : '',
+          crm.status || 'new',
+          crm.notes || '',
+          crm.interest || ''
+        ]);
+      });
+
+      const csv = rows.map(r => r.map(v => `"${v}"`).join(',')).join('
+');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `cardsend-contacts-${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(`✓ Downloaded ${contacts.length} contacts`);
+    } catch { showToast('Export failed — try again'); }
+  }
+
+  async function exportFacebook() {
+    try {
+      const res = await fetch(`${API_BASE}/contacts/all`);
+      if (!res.ok) { showToast('Could not load contacts'); return; }
+      const contacts = await res.json();
+
+      // Facebook custom audience format — phone numbers only
+      const phones = contacts
+        .map(c => c.customer_phone ? c.customer_phone.replace(/\D/g,'') : '')
+        .filter(p => p.length >= 10)
+        .map(p => p.length === 10 ? `+1${p}` : `+${p}`);
+
+      const csv = ['phone_number', ...phones].join('
+');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `facebook-audience-${new Date().toISOString().slice(0,10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(`✓ Downloaded ${phones.length} numbers for Facebook`);
+    } catch { showToast('Export failed — try again'); }
+  }
+
+  // ── Analytics ──
+  async function loadAnalytics(reps, contacts) {
+    if (!reps || !contacts) return;
+    const panel = document.getElementById('analytics-panel');
+    if (!panel) return;
+
+    const repMap = {};
+    reps.forEach(r => { repMap[r.id] = r; });
+
+    // Calculate stats per rep
+    const stats = reps.map(r => {
+      const repContacts = contacts.filter(c => c.rep_id === r.id);
+      const total = repContacts.length;
+      const followed = repContacts.filter(c => {
+        const crm = crmData[c.id || c.customer_phone] || {};
+        return ['following','purchased'].includes(crm.status);
+      }).length;
+      const closed = repContacts.filter(c => {
+        const crm = crmData[c.id || c.customer_phone] || {};
+        return crm.status === 'purchased';
+      }).length;
+      const followRate = total > 0 ? Math.round((followed/total)*100) : 0;
+      const closeRate  = total > 0 ? Math.round((closed/total)*100)  : 0;
+      return { ...r, total, followed, closed, followRate, closeRate };
+    }).sort((a,b) => b.total - a.total);
+
+    if (!stats.length) {
+      panel.innerHTML = '<div class="empty-state"><div class="empty-text">No rep data yet</div></div>';
+      return;
+    }
+
+    panel.innerHTML = `
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border);">
+              <th style="text-align:left;padding:8px 0;color:var(--text3);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600;">Rep</th>
+              <th style="text-align:center;padding:8px;color:var(--text3);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600;">Cards Sent</th>
+              <th style="text-align:center;padding:8px;color:var(--text3);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600;">Follow-up Rate</th>
+              <th style="text-align:center;padding:8px;color:var(--text3);font-size:11px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600;">Close Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${stats.map(r => `
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:12px 0;">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:34px;height:34px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--accent);flex-shrink:0;">${getInitials(r.name||r.email)}</div>
+                    <div>
+                      <div style="font-weight:500;color:var(--text);">${r.name || 'Unknown'}</div>
+                      <div style="font-size:11px;color:var(--text3);">${r.email || ''}</div>
+                    </div>
+                  </div>
+                </td>
+                <td style="text-align:center;padding:12px 8px;">
+                  <span style="font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--accent);">${r.total}</span>
+                </td>
+                <td style="text-align:center;padding:12px 8px;">
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                    <span style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:${r.followRate >= 50 ? 'var(--green)' : r.followRate >= 25 ? '#F59E0B' : 'var(--text2)'};">${r.followRate}%</span>
+                    <div style="width:60px;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;">
+                      <div style="height:100%;width:${r.followRate}%;background:${r.followRate >= 50 ? 'var(--green)' : r.followRate >= 25 ? '#F59E0B' : 'var(--text3)'};border-radius:2px;"></div>
+                    </div>
+                  </div>
+                </td>
+                <td style="text-align:center;padding:12px 8px;">
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                    <span style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:${r.closeRate >= 20 ? 'var(--green)' : r.closeRate >= 10 ? '#F59E0B' : 'var(--text2)'};">${r.closeRate}%</span>
+                    <div style="width:60px;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;">
+                      <div style="height:100%;width:${r.closeRate}%;background:${r.closeRate >= 20 ? 'var(--green)' : r.closeRate >= 10 ? '#F59E0B' : 'var(--text3)'};border-radius:2px;"></div>
+                    </div>
+                  </div>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+        <p style="font-size:11px;color:var(--text3);margin-top:12px;">Follow-up rate = contacts marked "Following Up" or "Purchased" ÷ total cards sent. Close rate = contacts marked "Purchased" ÷ total cards sent.</p>
+      </div>`;
+  }
 
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js');
 </script>
