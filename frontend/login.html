@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CardSend — Sign In</title>
+<title>CardSend â Sign In</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,7 +50,7 @@
     </div>
     <div class="field">
       <label>Password</label>
-      <input type="password" id="signin-password" placeholder="••••••••">
+      <input type="password" id="signin-password" placeholder="â¢â¢â¢â¢â¢â¢â¢â¢">
     </div>
     <button class="btn" id="signin-btn" onclick="signIn()">Sign In</button>
   </div>
@@ -87,8 +87,10 @@
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   function showTab(tab) {
-    document.getElementById('tab-signin').classList.toggle('active', tab === 'signin');
-    document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+    const _ts = (id,v) => { const e=document.getElementById(id); if(e) e.classList.toggle('active',v); };
+    const _th = (id,v) => { const e=document.getElementById(id); if(e) e.classList.toggle('hidden',v); };
+    _ts('tab-signin', tab === 'signin');
+    _ts('tab-signup', tab === 'signup');
     document.getElementById('panel-signin').classList.toggle('active', tab === 'signin');
     document.getElementById('panel-signup').classList.toggle('active', tab === 'signup');
     document.getElementById('error-msg').classList.remove('show');
