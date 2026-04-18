@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CardSend — Sign In</title>
+<title>CardSend â Sign In</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -144,14 +144,31 @@
       else showError('signup', error.message || 'Could not create account. Please try again.');
       return;
     }
-    // Create rep profile
+    // Create rep profile directly in Supabase
     try {
-      await fetch(API_BASE + '/reps', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, user_id: data.user?.id })
-      });
-    } catch {}
+      const userId = data.user?.id;
+      if (userId) {
+        // Insert into reps table directly
+        await sb.from('reps').upsert({
+          user_id: userId,
+          name: name,
+          email: email,
+          title: 'Sales Associate',
+          store_location: '',
+          phone: '',
+          created_at: new Date().toISOString()
+        }, { onConflict: 'user_id' });
+        // Also create profile
+        await sb.from('profiles').upsert({
+          id: userId,
+          email: email,
+          role: 'rep'
+        }, { onConflict: 'id' });
+      }
+    } catch (profileErr) {
+      // Don't block signup if profile creation fails - they can set it up in-app
+      console.log('Profile creation skipped:', profileErr.message);
+    }
     // Check if session exists (no email confirmation needed)
     const { data: { session } } = await sb.auth.getSession();
     if (session) {
