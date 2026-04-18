@@ -198,6 +198,31 @@
 
   .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Onboarding */
+  .onboard-overlay { display:none; position:fixed; inset:0; background:var(--bg); z-index:200; overflow-y:auto; }
+  .onboard-overlay.open { display:flex; flex-direction:column; }
+  .onboard-step { display:none; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:40px 24px; text-align:center; }
+  .onboard-step.active { display:flex; }
+  .onboard-icon { font-size:56px; margin-bottom:20px; }
+  .onboard-title { font-family:'Syne',sans-serif; font-size:26px; font-weight:800; color:var(--text); margin-bottom:10px; line-height:1.2; }
+  .onboard-sub { font-size:15px; color:var(--text2); line-height:1.6; margin-bottom:32px; max-width:320px; }
+  .onboard-dots { display:flex; gap:6px; margin-bottom:32px; }
+  .onboard-dot { width:8px; height:8px; border-radius:50%; background:var(--bg3); transition:all 0.3s; }
+  .onboard-dot.active { background:var(--accent); width:22px; border-radius:4px; }
+  .onboard-card-preview { background:linear-gradient(135deg,#1A1A2E,#16213E,#0F3460); border-radius:20px; padding:24px; width:100%; max-width:320px; margin-bottom:32px; text-align:left; }
+  .onboard-card-name { font-family:'Syne',sans-serif; font-size:20px; font-weight:700; color:#fff; margin-bottom:4px; }
+  .onboard-card-title-text { font-size:11px; color:rgba(204,0,0,0.9); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; }
+  .onboard-card-detail { font-size:12px; color:rgba(255,255,255,0.55); margin-bottom:3px; }
+  .onboard-input-group { width:100%; max-width:340px; text-align:left; margin-bottom:12px; }
+  .onboard-label { font-size:11px; font-weight:600; color:var(--text2); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:6px; display:block; }
+  .onboard-input { width:100%; background:var(--bg2); border:1px solid var(--border2); border-radius:var(--radius-sm); padding:13px 14px; font-family:'Inter',sans-serif; font-size:14px; color:var(--text); outline:none; box-sizing:border-box; }
+  .onboard-input:focus { border-color:var(--accent); }
+  .onboard-btn { width:100%; max-width:340px; background:var(--accent); color:#fff; border:none; border-radius:var(--radius-sm); padding:16px; font-family:'Syne',sans-serif; font-size:16px; font-weight:700; cursor:pointer; margin-bottom:12px; transition:background 0.15s; }
+  .onboard-btn:hover { background:var(--accent2); }
+  .onboard-skip { font-size:13px; color:var(--text3); cursor:pointer; border:none; background:none; font-family:'Inter',sans-serif; }
+  .onboard-progress { width:100%; max-width:340px; height:4px; background:var(--bg3); border-radius:2px; margin-bottom:32px; overflow:hidden; }
+  .onboard-progress-fill { height:100%; background:var(--accent); border-radius:2px; transition:width 0.4s; }
 </style>
 </head>
 <body>
@@ -229,9 +254,9 @@
             <div>
               <div class="biz-card-name" id="card-name">Your Name</div>
               <div class="biz-card-title" id="card-title">Sales Associate</div>
-              <div id="card-store-row" style="display:none;" class="biz-card-detail"><span>ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ</span><span id="card-store"></span></div>
-              <div id="card-phone-row" style="display:none;" class="biz-card-detail"><span>ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ</span><span id="card-phone-val"></span></div>
-              <div id="card-email-row" style="display:none;" class="biz-card-detail"><span>ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¯ÃÂÃÂÃÂÃÂ¸ÃÂÃÂÃÂÃÂ</span><span id="card-email-val"></span></div>
+              <div id="card-store-row" style="display:none;" class="biz-card-detail"><span>ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ</span><span id="card-store"></span></div>
+              <div id="card-phone-row" style="display:none;" class="biz-card-detail"><span>ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ</span><span id="card-phone-val"></span></div>
+              <div id="card-email-row" style="display:none;" class="biz-card-detail"><span>ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¯ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¸ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ</span><span id="card-email-val"></span></div>
             </div>
           </div>
         </div>
@@ -274,20 +299,20 @@
       </div>
 
       <div class="panel">
-        <div class="panel-header"><div class="panel-title">ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Leaderboard</div></div>
+        <div class="panel-header"><div class="panel-title">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Leaderboard</div></div>
         <div class="panel-body" id="leaderboard"><div class="empty-state"><div class="empty-text">Loading...</div></div></div>
       </div>
 
       <!-- Export Contacts Panel -->
       <div class="panel">
         <div class="panel-header">
-          <div class="panel-title">ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¤ Export Contacts</div>
+          <div class="panel-title">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¤ Export Contacts</div>
         </div>
         <div class="panel-body">
           <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6;">Download your full contact list for your marketing team to use for retargeting campaigns on Facebook, Google, and email.</p>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="invite-btn" onclick="exportCSV()" style="background:var(--accent);">ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂ¬ÃÂÃÂÃÂÃÂ Download CSV</button>
-            <button class="invite-btn" onclick="exportFacebook()" style="background:#1877F2;">ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Facebook Audience</button>
+            <button class="invite-btn" onclick="exportCSV()" style="background:var(--accent);">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¬ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Download CSV</button>
+            <button class="invite-btn" onclick="exportFacebook()" style="background:#1877F2;">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Facebook Audience</button>
           </div>
           <p style="font-size:11px;color:var(--text3);margin-top:10px;">CSV includes: name, phone, rep, date, status. Facebook format includes phone numbers only (hashed for privacy).</p>
         </div>
@@ -296,8 +321,8 @@
       <!-- Analytics Panel -->
       <div class="panel">
         <div class="panel-header">
-          <div class="panel-title">ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Rep Analytics</div>
-          <button onclick="loadDashboard()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px;">ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ»</button>
+          <div class="panel-title">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Rep Analytics</div>
+          <button onclick="loadDashboard()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px;">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ»</button>
         </div>
         <div class="panel-body" id="analytics-panel">
           <div class="empty-state"><div class="empty-text">Loading...</div></div>
@@ -305,9 +330,9 @@
       </div>
 
       <div class="panel">
-        <div class="panel-header"><div class="panel-title">ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¯ÃÂÃÂÃÂÃÂ¸ÃÂÃÂÃÂÃÂ Invite a Rep</div></div>
+        <div class="panel-header"><div class="panel-title">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¯ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¸ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Invite a Rep</div></div>
         <div class="panel-body">
-          <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6;">Enter a rep's email then tap Invite ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ a signup link will be copied to your clipboard to send them.</p>
+          <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6;">Enter a rep's email then tap Invite ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ a signup link will be copied to your clipboard to send them.</p>
           <div class="invite-row">
             <input type="email" class="invite-input" id="invite-email" placeholder="rep@regency.com">
             <button class="invite-btn" onclick="inviteRep()">Invite</button>
@@ -396,10 +421,10 @@
       <div class="detail-field">
         <div class="detail-label">Status</div>
         <select class="detail-select" id="crm-status">
-          <option value="new">ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂµ New Lead</option>
-          <option value="following">ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ´ Following Up</option>
-          <option value="purchased">ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ Purchased</option>
-          <option value="cold">ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂª Cold</option>
+          <option value="new">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂµ New Lead</option>
+          <option value="following">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ´ Following Up</option>
+          <option value="purchased">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ Purchased</option>
+          <option value="cold">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂª Cold</option>
         </select>
       </div>
       <div class="detail-field">
@@ -420,6 +445,76 @@
 
 <div id="toast"></div>
 
+<!-- Onboarding Overlay -->
+<div class="onboard-overlay" id="onboard-overlay">
+
+  <!-- Step 1: Welcome -->
+  <div class="onboard-step active" id="onboard-step-1">
+    <div class="onboard-icon">👋</div>
+    <div class="onboard-title">Welcome to CardSend</div>
+    <div class="onboard-sub">The easiest way to share your digital business card and build your customer list — all from your phone.</div>
+    <div class="onboard-dots">
+      <div class="onboard-dot active"></div>
+      <div class="onboard-dot"></div>
+      <div class="onboard-dot"></div>
+    </div>
+    <div class="onboard-progress" style="margin-bottom:32px;"><div class="onboard-progress-fill" style="width:33%"></div></div>
+    <button class="onboard-btn" onclick="onboardNext(2)">Get Started →</button>
+  </div>
+
+  <!-- Step 2: Set up profile -->
+  <div class="onboard-step" id="onboard-step-2">
+    <div class="onboard-icon">🪪</div>
+    <div class="onboard-title">Set up your card</div>
+    <div class="onboard-sub">This info will appear on your digital business card. Customers will see this when you send your card.</div>
+    <div class="onboard-dots">
+      <div class="onboard-dot"></div>
+      <div class="onboard-dot active"></div>
+      <div class="onboard-dot"></div>
+    </div>
+    <div class="onboard-progress"><div class="onboard-progress-fill" style="width:66%"></div></div>
+    <div class="onboard-input-group">
+      <label class="onboard-label">Your Full Name</label>
+      <input class="onboard-input" id="ob-name" type="text" placeholder="e.g. Victor Tabbs" oninput="updateOnboardPreview()">
+    </div>
+    <div class="onboard-input-group">
+      <label class="onboard-label">Your Title</label>
+      <input class="onboard-input" id="ob-title" type="text" placeholder="e.g. Senior Sales Associate" oninput="updateOnboardPreview()">
+    </div>
+    <div class="onboard-input-group">
+      <label class="onboard-label">Store Location</label>
+      <input class="onboard-input" id="ob-store" type="text" placeholder="e.g. Capitol Heights, MD" oninput="updateOnboardPreview()">
+    </div>
+    <div class="onboard-input-group">
+      <label class="onboard-label">Phone</label>
+      <input class="onboard-input" id="ob-phone" type="tel" placeholder="(555) 000-0000" oninput="updateOnboardPreview()">
+    </div>
+    <button class="onboard-btn" onclick="onboardNext(3)">Preview My Card →</button>
+    <button class="onboard-skip" onclick="skipOnboard()">Skip for now</button>
+  </div>
+
+  <!-- Step 3: Preview & Finish -->
+  <div class="onboard-step" id="onboard-step-3">
+    <div class="onboard-icon">🎉</div>
+    <div class="onboard-title">Looking good!</div>
+    <div class="onboard-sub">Here's your digital card. You're ready to start sending it to customers.</div>
+    <div class="onboard-dots">
+      <div class="onboard-dot"></div>
+      <div class="onboard-dot"></div>
+      <div class="onboard-dot active"></div>
+    </div>
+    <div class="onboard-progress"><div class="onboard-progress-fill" style="width:100%"></div></div>
+    <div class="onboard-card-preview">
+      <div class="onboard-card-name" id="ob-preview-name">Your Name</div>
+      <div class="onboard-card-title-text" id="ob-preview-title">SALES ASSOCIATE</div>
+      <div class="onboard-card-detail" id="ob-preview-store"></div>
+      <div class="onboard-card-detail" id="ob-preview-phone"></div>
+      <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:rgba(255,255,255,0.15);letter-spacing:0.1em;text-transform:uppercase;margin-top:16px;text-align:right;">Regency</div>
+    </div>
+    <button class="onboard-btn" onclick="finishOnboard()">Start Sending Cards 🚀</button>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = 'https://pdajbnuexprwnwulcqsz.supabase.co';
@@ -439,7 +534,7 @@
   let isResend = false;
   let crmData = JSON.parse(localStorage.getItem('cs_crm') || '{}');
 
-  // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Init ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+  // ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Init ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
   (async () => {
     const { data: { session } } = await sb.auth.getSession();
     if (!session) { window.location.href = 'login.html'; return; }
@@ -450,7 +545,7 @@
       const { data: p2 } = await sb.from('profiles').select('*').eq('email', currentUser.email).single();
       profile = p2;
     }
-    // Manager email list ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ add manager emails here
+    // Manager email list ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ add manager emails here
     const MANAGER_EMAILS = ['victortabbs1992@gmail.com'];
     if (!profile || !profile.role) {
       profile = { ...profile, role: MANAGER_EMAILS.includes(currentUser.email) ? 'manager' : 'rep' };
@@ -494,9 +589,11 @@
     if (!repId) repId = localStorage.getItem('cs_rep_id');
     await loadContacts();
     if (profile?.role === 'manager') await loadDashboard();
+    // Show onboarding for new reps only
+    if (profile?.role !== 'manager') checkOnboarding();
   })();
 
-  // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Tab Switching ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+  // ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Tab Switching ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
   function switchTab(tab, btn) {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -506,14 +603,14 @@
     if (tab === 'dashboard') loadDashboard();
   }
 
-  // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Auth ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+  // ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Auth ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
   async function signOut() {
     await sb.auth.signOut();
     localStorage.removeItem('cs_rep_id');
     window.location.href = 'login.html';
   }
 
-  // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Profile ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+  // ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Profile ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
   function loadProfileFromCache() {
     const cached = JSON.parse(localStorage.getItem('cs_profile_cache') || '{}');
     if (!cached.name) return;
@@ -566,11 +663,11 @@
       const rep = await res.json();
       repId = rep.id;
       localStorage.setItem('cs_rep_id', repId);
-      showToast('ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Profile saved');
+      showToast('ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Profile saved');
       updatePreview();
       localStorage.setItem('cs_profile_cache', JSON.stringify({ ...payload, photo_url: profilePhoto }));
       setSaveStatus(true);
-    } catch { showToast('Could not save ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ check connection'); }
+    } catch { showToast('Could not save ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ check connection'); }
     finally { setBtnLoading('save-btn-content', false, 'Save Profile'); }
   }
 
@@ -588,7 +685,7 @@
       if (!res.ok) throw new Error();
       const { photo_url } = await res.json();
       setPhoto(photo_url);
-      showToast('ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Photo uploaded');
+      showToast('ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Photo uploaded');
     } catch { showToast('Photo preview set'); }
   }
 
@@ -617,7 +714,7 @@
     if (!profilePhoto) { const i = getInitials(name); document.getElementById('profile-init').textContent = i; document.getElementById('card-init').textContent = i; }
   }
 
-  // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Send ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+  // ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Send ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
   function buildMessage(custName) {
     const name  = document.getElementById('rep-name').value.trim() || 'Your Sales Associate';
     const title = document.getElementById('rep-title').value.trim();
@@ -626,9 +723,9 @@
     const email = document.getElementById('rep-email').value.trim();
     const lines = [`Hi ${custName || 'there'}! Great meeting you. Here's my digital card:`, '', name];
     if (title) lines.push(title);
-    if (store) lines.push('ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ' + store);
-    if (phone) lines.push('ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ' + phone);
-    if (email) lines.push('ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¯ÃÂÃÂÃÂÃÂ¸ÃÂÃÂÃÂÃÂ ' + email);
+    if (store) lines.push('ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ' + store);
+    if (phone) lines.push('ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ' + phone);
+    if (email) lines.push('ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¯ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¸ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ' + email);
     lines.push('', 'Looking forward to helping you find the perfect piece!');
     return lines.join('\n');
   }
@@ -649,7 +746,7 @@
     document.getElementById('sms-link').href = 'sms:' + number + '?body=' + encodeURIComponent(body);
     document.getElementById('sms-link').dataset.body = body;
     document.getElementById('sms-preview').textContent = body;
-    document.getElementById('modal-to').textContent = 'To ' + cName + ' ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· ' + formatPhone(cPhone);
+    document.getElementById('modal-to').textContent = 'To ' + cName + ' ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· ' + formatPhone(cPhone);
     document.getElementById('send-modal').classList.add('open');
   }
 
@@ -683,11 +780,11 @@
       document.getElementById('cust-name').value = '';
       document.getElementById('cust-phone').value = '';
       await loadContacts();
-      showToast('ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Message copied ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ paste in Messages!');
+      showToast('ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Message copied ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ paste in Messages!');
     }, 200);
   }
 
-  // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Contacts ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+  // ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Contacts ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
   async function loadContacts() {
     try {
       if (repId) {
@@ -749,7 +846,7 @@
     });
     let contacts = filter === 'all' ? allContacts : allContacts.filter(c => ((crmData[c.id||c.customer_phone]||{}).status||'new') === filter);
     if (!contacts.length) {
-      list.innerHTML = `<div class="empty-state"><div class="empty-icon">ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¥</div><div class="empty-title">No contacts</div><div class="empty-text">${filter==='all'?'Send your card to start building your list.':'No contacts with this status yet.'}</div></div>`;
+      list.innerHTML = `<div class="empty-state"><div class="empty-icon">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¥</div><div class="empty-title">No contacts</div><div class="empty-text">${filter==='all'?'Send your card to start building your list.':'No contacts with this status yet.'}</div></div>`;
       return;
     }
     const statusLabels  = { new:'New', following:'Following Up', purchased:'Purchased', cold:'Cold' };
@@ -768,13 +865,13 @@
           </div>
         </div>
         <div class="contact-meta">
-          <div class="contact-date">${date}${crm.interest ? ' ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· ' + crm.interest : ''}</div>
+          <div class="contact-date">${date}${crm.interest ? ' ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· ' + crm.interest : ''}</div>
           <div class="contact-status ${statusClasses[status]}">${statusLabels[status]}</div>
         </div>
         <div class="contact-actions">
-          <button class="contact-action-btn" onclick="resendTo('${c.customer_name}','${c.customer_phone}')">ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¤ Resend</button>
-          <button class="contact-action-btn" onclick="openCrmModal('${key}','${c.customer_name}','${c.customer_phone}')">ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¯ÃÂÃÂÃÂÃÂ¸ÃÂÃÂÃÂÃÂ Edit</button>
-          <button class="contact-action-btn" onclick="callContact('${c.customer_phone}')">ÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Call</button>
+          <button class="contact-action-btn" onclick="resendTo('${c.customer_name}','${c.customer_phone}')">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¤ Resend</button>
+          <button class="contact-action-btn" onclick="openCrmModal('${key}','${c.customer_name}','${c.customer_phone}')">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¯ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¸ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Edit</button>
+          <button class="contact-action-btn" onclick="callContact('${c.customer_phone}')">ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ°ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Call</button>
         </div>
         ${crm.notes ? `<div style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--text2);margin-top:10px;line-height:1.5;">${crm.notes}</div>` : ''}
       </div>`;
@@ -791,7 +888,7 @@
     setTimeout(() => openSendModal(), 100);
   }
 
-  // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ CRM Modal ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+  // ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ CRM Modal ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
   function openCrmModal(key, name, phone) {
     editingContactId = key;
     const crm = crmData[key] || {};
@@ -812,10 +909,10 @@
     closeCrmModal();
     updateStats();
     renderContacts(currentFilter);
-    showToast('ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Contact updated');
+    showToast('ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Contact updated');
   }
 
-  // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Manager Dashboard ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+  // ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Manager Dashboard ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
   async function loadDashboard() {
     try {
       // Get all reps from the reps table (backend) via API
@@ -854,6 +951,7 @@
       // Reps list
       // Load analytics
       await loadAnalytics(allReps, allContacts);
+      await renderCharts(allReps, allContacts);
 
       document.getElementById('reps-list').innerHTML = allReps.length ? allReps.map(r => `
         <div class="rep-row">
@@ -873,11 +971,11 @@
     if (!email) { showToast('Enter an email address'); return; }
     const link = window.location.origin + '/login.html';
     try { await navigator.clipboard.writeText(link); } catch {}
-    showToast('ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Link copied! Send to ' + email);
+    showToast('ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Link copied! Send to ' + email);
     document.getElementById('invite-email').value = '';
   }
 
-  // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Utilities ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+  // ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Utilities ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
   function getInitials(name) {
     if (!name||!name.trim()) return '?';
     const p = name.trim().split(' ');
@@ -907,7 +1005,7 @@
   document.getElementById('send-modal').addEventListener('click', e => { if (e.target===e.currentTarget) closeModal(); });
   document.getElementById('crm-modal').addEventListener('click',  e => { if (e.target===e.currentTarget) closeCrmModal(); });
 
-  // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Export Functions ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+  // ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Export Functions ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
   async function exportCSV() {
     try {
       const res = await fetch(`${API_BASE}/contacts/all`);
@@ -941,8 +1039,8 @@
       a.download = `cardsend-contacts-${new Date().toISOString().slice(0,10)}.csv`;
       a.click();
       URL.revokeObjectURL(url);
-      showToast(`ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Downloaded ${contacts.length} contacts`);
-    } catch { showToast('Export failed ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ try again'); }
+      showToast(`ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Downloaded ${contacts.length} contacts`);
+    } catch { showToast('Export failed ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ try again'); }
   }
 
   async function exportFacebook() {
@@ -951,7 +1049,7 @@
       if (!res.ok) { showToast('Could not load contacts'); return; }
       const contacts = await res.json();
 
-      // Facebook custom audience format ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ phone numbers only
+      // Facebook custom audience format ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ phone numbers only
       const phones = contacts
         .map(c => c.customer_phone ? c.customer_phone.replace(/\D/g,'') : '')
         .filter(p => p.length >= 10)
@@ -966,11 +1064,11 @@
       a.download = `facebook-audience-${new Date().toISOString().slice(0,10)}.csv`;
       a.click();
       URL.revokeObjectURL(url);
-      showToast(`ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Downloaded ${phones.length} numbers for Facebook`);
-    } catch { showToast('Export failed ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ try again'); }
+      showToast(`ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Downloaded ${phones.length} numbers for Facebook`);
+    } catch { showToast('Export failed ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ try again'); }
   }
 
-  // ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Analytics ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
+  // ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Analytics ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
   async function loadAnalytics(reps, contacts) {
     if (!reps || !contacts) return;
     const panel = document.getElementById('analytics-panel');
@@ -1046,8 +1144,150 @@
               </tr>`).join('')}
           </tbody>
         </table>
-        <p style="font-size:11px;color:var(--text3);margin-top:12px;">Follow-up rate = contacts marked "Following Up" or "Purchased" ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· total cards sent. Close rate = contacts marked "Purchased" ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· total cards sent.</p>
+        <p style="font-size:11px;color:var(--text3);margin-top:12px;">Follow-up rate = contacts marked "Following Up" or "Purchased" ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· total cards sent. Close rate = contacts marked "Purchased" ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· total cards sent.</p>
       </div>`;
+  }
+
+  // ── Onboarding ──
+  function checkOnboarding() {
+    const done = localStorage.getItem('cs_onboard_done');
+    if (!done) {
+      document.getElementById('onboard-overlay').classList.add('open');
+    }
+  }
+
+  function onboardNext(step) {
+    document.querySelectorAll('.onboard-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('onboard-step-' + step).classList.add('active');
+  }
+
+  function updateOnboardPreview() {
+    const name  = document.getElementById('ob-name')?.value  || 'Your Name';
+    const title = document.getElementById('ob-title')?.value || 'Sales Associate';
+    const store = document.getElementById('ob-store')?.value || '';
+    const phone = document.getElementById('ob-phone')?.value || '';
+    const pname = document.getElementById('ob-preview-name');
+    const ptitle = document.getElementById('ob-preview-title');
+    const pstore = document.getElementById('ob-preview-store');
+    const pphone = document.getElementById('ob-preview-phone');
+    if (pname)  pname.textContent  = name;
+    if (ptitle) ptitle.textContent = title.toUpperCase();
+    if (pstore) pstore.textContent = store ? '📍 ' + store : '';
+    if (pphone) pphone.textContent = phone ? '📞 ' + phone : '';
+  }
+
+  async function finishOnboard() {
+    const name  = document.getElementById('ob-name')?.value.trim();
+    const title = document.getElementById('ob-title')?.value.trim();
+    const store = document.getElementById('ob-store')?.value.trim();
+    const phone = document.getElementById('ob-phone')?.value.trim();
+    if (name) {
+      document.getElementById('rep-name').value  = name;
+      document.getElementById('rep-title').value = title || '';
+      document.getElementById('rep-store').value = store || '';
+      document.getElementById('rep-phone').value = phone || '';
+      updatePreview();
+      await saveProfile();
+    }
+    localStorage.setItem('cs_onboard_done', '1');
+    document.getElementById('onboard-overlay').classList.remove('open');
+    showToast('Welcome to CardSend! 🎉');
+  }
+
+  function skipOnboard() {
+    localStorage.setItem('cs_onboard_done', '1');
+    document.getElementById('onboard-overlay').classList.remove('open');
+  }
+
+  // ── Manager Charts (Chart.js) ──
+  let cardsChart = null;
+  let statusChart = null;
+
+  async function renderCharts(allReps, allContacts) {
+    // Inject Chart.js if not loaded
+    if (!window.Chart) {
+      await new Promise(res => {
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js';
+        s.onload = res;
+        document.head.appendChild(s);
+      });
+    }
+
+    // ── Cards sent per day (last 14 days) ──
+    const days = 14;
+    const labels = [];
+    const dayCounts = [];
+    for (let i = days - 1; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      d.setHours(0,0,0,0);
+      labels.push(d.toLocaleDateString('en-US',{month:'short',day:'numeric'}));
+      const next = new Date(d); next.setDate(next.getDate()+1);
+      dayCounts.push(allContacts.filter(c => { const t = new Date(c.sent_at); return t >= d && t < next; }).length);
+    }
+
+    // ── Status breakdown ──
+    const statusCounts = { new:0, following:0, purchased:0, cold:0 };
+    allContacts.forEach(c => {
+      const s = c.status || 'new';
+      statusCounts[s] = (statusCounts[s]||0) + 1;
+    });
+
+    // Destroy old charts
+    if (cardsChart) { cardsChart.destroy(); cardsChart = null; }
+    if (statusChart) { statusChart.destroy(); statusChart = null; }
+
+    // Render cards-per-day chart
+    const ctx1 = document.getElementById('chart-cards-per-day');
+    if (ctx1) {
+      cardsChart = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Cards Sent',
+            data: dayCounts,
+            backgroundColor: 'rgba(204,0,0,0.7)',
+            borderColor: '#CC0000',
+            borderWidth: 1,
+            borderRadius: 4,
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1, color: '#999' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+            x: { ticks: { color: '#999', maxRotation: 45 }, grid: { display: false } }
+          }
+        }
+      });
+    }
+
+    // Render status donut chart
+    const ctx2 = document.getElementById('chart-status');
+    if (ctx2) {
+      statusChart = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+          labels: ['New', 'Following Up', 'Purchased', 'Cold'],
+          datasets: [{
+            data: [statusCounts.new, statusCounts.following, statusCounts.purchased, statusCounts.cold],
+            backgroundColor: ['#1A6FCC','#CC0000','#1A8A4A','#999'],
+            borderWidth: 2,
+            borderColor: '#fff'
+          }]
+        },
+        options: {
+          responsive: true,
+          cutout: '65%',
+          plugins: {
+            legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 12 }, padding: 12, color: '#555' } }
+          }
+        }
+      });
+    }
   }
 
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js');
