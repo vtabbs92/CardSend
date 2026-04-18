@@ -210,9 +210,9 @@
             <div>
               <div class="biz-card-name" id="card-name">Your Name</div>
               <div class="biz-card-title" id="card-title">Sales Associate</div>
-              <div id="card-store-row" style="display:none;" class="biz-card-detail"><span>ð</span><span id="card-store"></span></div>
-              <div id="card-phone-row" style="display:none;" class="biz-card-detail"><span>ð</span><span id="card-phone-val"></span></div>
-              <div id="card-email-row" style="display:none;" class="biz-card-detail"><span>âï¸</span><span id="card-email-val"></span></div>
+              <div id="card-store-row" style="display:none;" class="biz-card-detail"><span>Ã°ÂÂÂ</span><span id="card-store"></span></div>
+              <div id="card-phone-row" style="display:none;" class="biz-card-detail"><span>Ã°ÂÂÂ</span><span id="card-phone-val"></span></div>
+              <div id="card-email-row" style="display:none;" class="biz-card-detail"><span>Ã¢ÂÂÃ¯Â¸Â</span><span id="card-email-val"></span></div>
             </div>
           </div>
         </div>
@@ -255,20 +255,20 @@
       </div>
 
       <div class="panel">
-        <div class="panel-header"><div class="panel-title">ð Leaderboard</div></div>
+        <div class="panel-header"><div class="panel-title">Ã°ÂÂÂ Leaderboard</div></div>
         <div class="panel-body" id="leaderboard"><div class="empty-state"><div class="empty-text">Loading...</div></div></div>
       </div>
 
       <!-- Export Contacts Panel -->
       <div class="panel">
         <div class="panel-header">
-          <div class="panel-title">ð¤ Export Contacts</div>
+          <div class="panel-title">Ã°ÂÂÂ¤ Export Contacts</div>
         </div>
         <div class="panel-body">
           <p style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6;">Download your full contact list for your marketing team to use for retargeting campaigns on Facebook, Google, and email.</p>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="invite-btn" onclick="exportCSV()" style="background:var(--accent);">â¬ Download CSV</button>
-            <button class="invite-btn" onclick="exportFacebook()" style="background:#1877F2;">ð Facebook Audience</button>
+            <button class="invite-btn" onclick="exportCSV()" style="background:var(--accent);">Ã¢Â¬Â Download CSV</button>
+            <button class="invite-btn" onclick="exportFacebook()" style="background:#1877F2;">Ã°ÂÂÂ Facebook Audience</button>
           </div>
           <p style="font-size:11px;color:var(--text3);margin-top:10px;">CSV includes: name, phone, rep, date, status. Facebook format includes phone numbers only (hashed for privacy).</p>
         </div>
@@ -277,8 +277,8 @@
       <!-- Analytics Panel -->
       <div class="panel">
         <div class="panel-header">
-          <div class="panel-title">ð Rep Analytics</div>
-          <button onclick="loadDashboard()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px;">â»</button>
+          <div class="panel-title">Ã°ÂÂÂ Rep Analytics</div>
+          <button onclick="loadDashboard()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px;">Ã¢ÂÂ»</button>
         </div>
         <div class="panel-body" id="analytics-panel">
           <div class="empty-state"><div class="empty-text">Loading...</div></div>
@@ -286,9 +286,9 @@
       </div>
 
       <div class="panel">
-        <div class="panel-header"><div class="panel-title">âï¸ Invite a Rep</div></div>
+        <div class="panel-header"><div class="panel-title">Ã¢ÂÂÃ¯Â¸Â Invite a Rep</div></div>
         <div class="panel-body">
-          <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6;">Enter a rep's email then tap Invite â a signup link will be copied to your clipboard to send them.</p>
+          <p style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6;">Enter a rep's email then tap Invite Ã¢ÂÂ a signup link will be copied to your clipboard to send them.</p>
           <div class="invite-row">
             <input type="email" class="invite-input" id="invite-email" placeholder="rep@regency.com">
             <button class="invite-btn" onclick="inviteRep()">Invite</button>
@@ -377,10 +377,10 @@
       <div class="detail-field">
         <div class="detail-label">Status</div>
         <select class="detail-select" id="crm-status">
-          <option value="new">ðµ New Lead</option>
-          <option value="following">ð´ Following Up</option>
-          <option value="purchased">ð¢ Purchased</option>
-          <option value="cold">âª Cold</option>
+          <option value="new">Ã°ÂÂÂµ New Lead</option>
+          <option value="following">Ã°ÂÂÂ´ Following Up</option>
+          <option value="purchased">Ã°ÂÂÂ¢ Purchased</option>
+          <option value="cold">Ã¢ÂÂª Cold</option>
         </select>
       </div>
       <div class="detail-field">
@@ -419,7 +419,7 @@
   let pendingCustPhone = '';
   let crmData = JSON.parse(localStorage.getItem('cs_crm') || '{}');
 
-  // ââ Init ââ
+  // Ã¢ÂÂÃ¢ÂÂ Init Ã¢ÂÂÃ¢ÂÂ
   (async () => {
     const { data: { session } } = await sb.auth.getSession();
     if (!session) { window.location.href = 'login.html'; return; }
@@ -430,7 +430,7 @@
       const { data: p2 } = await sb.from('profiles').select('*').eq('email', currentUser.email).single();
       profile = p2;
     }
-    // Manager email list â add manager emails here
+    // Manager email list Ã¢ÂÂ add manager emails here
     const MANAGER_EMAILS = ['victortabbs1992@gmail.com'];
     if (!profile || !profile.role) {
       profile = { ...profile, role: MANAGER_EMAILS.includes(currentUser.email) ? 'manager' : 'rep' };
@@ -475,7 +475,7 @@
     if (profile?.role === 'manager') await loadDashboard();
   })();
 
-  // ââ Tab Switching ââ
+  // Ã¢ÂÂÃ¢ÂÂ Tab Switching Ã¢ÂÂÃ¢ÂÂ
   function switchTab(tab, btn) {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -485,14 +485,14 @@
     if (tab === 'dashboard') loadDashboard();
   }
 
-  // ââ Auth ââ
+  // Ã¢ÂÂÃ¢ÂÂ Auth Ã¢ÂÂÃ¢ÂÂ
   async function signOut() {
     await sb.auth.signOut();
     localStorage.removeItem('cs_rep_id');
     window.location.href = 'login.html';
   }
 
-  // ââ Profile ââ
+  // Ã¢ÂÂÃ¢ÂÂ Profile Ã¢ÂÂÃ¢ÂÂ
   function loadProfileFromCache() {
     const cached = JSON.parse(localStorage.getItem('cs_profile_cache') || '{}');
     if (!cached.name) return;
@@ -545,10 +545,10 @@
       const rep = await res.json();
       repId = rep.id;
       localStorage.setItem('cs_rep_id', repId);
-      showToast('â Profile saved');
+      showToast('Ã¢ÂÂ Profile saved');
       updatePreview();
       localStorage.setItem('cs_profile_cache', JSON.stringify({ ...payload, photo_url: profilePhoto }));
-    } catch { showToast('Could not save â check connection'); }
+    } catch { showToast('Could not save Ã¢ÂÂ check connection'); }
     finally { setBtnLoading('save-btn-content', false, 'Save Profile'); }
   }
 
@@ -566,7 +566,7 @@
       if (!res.ok) throw new Error();
       const { photo_url } = await res.json();
       setPhoto(photo_url);
-      showToast('â Photo uploaded');
+      showToast('Ã¢ÂÂ Photo uploaded');
     } catch { showToast('Photo preview set'); }
   }
 
@@ -595,7 +595,7 @@
     if (!profilePhoto) { const i = getInitials(name); document.getElementById('profile-init').textContent = i; document.getElementById('card-init').textContent = i; }
   }
 
-  // ââ Send ââ
+  // Ã¢ÂÂÃ¢ÂÂ Send Ã¢ÂÂÃ¢ÂÂ
   function buildMessage(custName) {
     const name  = document.getElementById('rep-name').value.trim() || 'Your Sales Associate';
     const title = document.getElementById('rep-title').value.trim();
@@ -604,9 +604,9 @@
     const email = document.getElementById('rep-email').value.trim();
     const lines = [`Hi ${custName || 'there'}! Great meeting you. Here's my digital card:`, '', name];
     if (title) lines.push(title);
-    if (store) lines.push('ð ' + store);
-    if (phone) lines.push('ð ' + phone);
-    if (email) lines.push('âï¸ ' + email);
+    if (store) lines.push('Ã°ÂÂÂ ' + store);
+    if (phone) lines.push('Ã°ÂÂÂ ' + phone);
+    if (email) lines.push('Ã¢ÂÂÃ¯Â¸Â ' + email);
     lines.push('', 'Looking forward to helping you find the perfect piece!');
     return lines.join('\n');
   }
@@ -626,7 +626,7 @@
     document.getElementById('sms-link').href = 'sms:' + number + '?body=' + encodeURIComponent(body);
     document.getElementById('sms-link').dataset.body = body;
     document.getElementById('sms-preview').textContent = body;
-    document.getElementById('modal-to').textContent = 'To ' + cName + ' Â· ' + formatPhone(cPhone);
+    document.getElementById('modal-to').textContent = 'To ' + cName + ' ÃÂ· ' + formatPhone(cPhone);
     document.getElementById('send-modal').classList.add('open');
   }
 
@@ -653,11 +653,11 @@
       document.getElementById('cust-name').value = '';
       document.getElementById('cust-phone').value = '';
       await loadContacts();
-      showToast('â Message copied â paste in Messages!');
+      showToast('Ã¢ÂÂ Message copied Ã¢ÂÂ paste in Messages!');
     }, 200);
   }
 
-  // ââ Contacts ââ
+  // Ã¢ÂÂÃ¢ÂÂ Contacts Ã¢ÂÂÃ¢ÂÂ
   async function loadContacts() {
     try {
       if (repId) {
@@ -698,9 +698,19 @@
 
   function renderContacts(filter) {
     const list = document.getElementById('contact-list');
+    // Merge Supabase status fields into crmData
+    allContacts.forEach(c => {
+      const key = c.id || c.customer_phone;
+      if (c.status || c.notes || c.interest) {
+        crmData[key] = crmData[key] || {};
+        if (c.status)   crmData[key].status   = c.status;
+        if (c.notes)    crmData[key].notes     = c.notes;
+        if (c.interest) crmData[key].interest  = c.interest;
+      }
+    });
     let contacts = filter === 'all' ? allContacts : allContacts.filter(c => ((crmData[c.id||c.customer_phone]||{}).status||'new') === filter);
     if (!contacts.length) {
-      list.innerHTML = `<div class="empty-state"><div class="empty-icon">ð¥</div><div class="empty-title">No contacts</div><div class="empty-text">${filter==='all'?'Send your card to start building your list.':'No contacts with this status yet.'}</div></div>`;
+      list.innerHTML = `<div class="empty-state"><div class="empty-icon">Ã°ÂÂÂ¥</div><div class="empty-title">No contacts</div><div class="empty-text">${filter==='all'?'Send your card to start building your list.':'No contacts with this status yet.'}</div></div>`;
       return;
     }
     const statusLabels  = { new:'New', following:'Following Up', purchased:'Purchased', cold:'Cold' };
@@ -719,13 +729,13 @@
           </div>
         </div>
         <div class="contact-meta">
-          <div class="contact-date">${date}${crm.interest ? ' Â· ' + crm.interest : ''}</div>
+          <div class="contact-date">${date}${crm.interest ? ' ÃÂ· ' + crm.interest : ''}</div>
           <div class="contact-status ${statusClasses[status]}">${statusLabels[status]}</div>
         </div>
         <div class="contact-actions">
-          <button class="contact-action-btn" onclick="resendTo('${c.customer_name}','${c.customer_phone}')">ð¤ Resend</button>
-          <button class="contact-action-btn" onclick="openCrmModal('${key}','${c.customer_name}','${c.customer_phone}')">âï¸ Edit</button>
-          <button class="contact-action-btn" onclick="callContact('${c.customer_phone}')">ð Call</button>
+          <button class="contact-action-btn" onclick="resendTo('${c.customer_name}','${c.customer_phone}')">Ã°ÂÂÂ¤ Resend</button>
+          <button class="contact-action-btn" onclick="openCrmModal('${key}','${c.customer_name}','${c.customer_phone}')">Ã¢ÂÂÃ¯Â¸Â Edit</button>
+          <button class="contact-action-btn" onclick="callContact('${c.customer_phone}')">Ã°ÂÂÂ Call</button>
         </div>
         ${crm.notes ? `<div style="background:var(--bg3);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--text2);margin-top:10px;line-height:1.5;">${crm.notes}</div>` : ''}
       </div>`;
@@ -741,7 +751,7 @@
     setTimeout(() => openSendModal(), 100);
   }
 
-  // ââ CRM Modal ââ
+  // Ã¢ÂÂÃ¢ÂÂ CRM Modal Ã¢ÂÂÃ¢ÂÂ
   function openCrmModal(key, name, phone) {
     editingContactId = key;
     const crm = crmData[key] || {};
@@ -762,10 +772,10 @@
     closeCrmModal();
     updateStats();
     renderContacts(currentFilter);
-    showToast('â Contact updated');
+    showToast('Ã¢ÂÂ Contact updated');
   }
 
-  // ââ Manager Dashboard ââ
+  // Ã¢ÂÂÃ¢ÂÂ Manager Dashboard Ã¢ÂÂÃ¢ÂÂ
   async function loadDashboard() {
     try {
       // Get all reps from the reps table (backend) via API
@@ -823,11 +833,11 @@
     if (!email) { showToast('Enter an email address'); return; }
     const link = window.location.origin + '/login.html';
     try { await navigator.clipboard.writeText(link); } catch {}
-    showToast('â Link copied! Send to ' + email);
+    showToast('Ã¢ÂÂ Link copied! Send to ' + email);
     document.getElementById('invite-email').value = '';
   }
 
-  // ââ Utilities ââ
+  // Ã¢ÂÂÃ¢ÂÂ Utilities Ã¢ÂÂÃ¢ÂÂ
   function getInitials(name) {
     if (!name||!name.trim()) return '?';
     const p = name.trim().split(' ');
@@ -857,7 +867,7 @@
   document.getElementById('send-modal').addEventListener('click', e => { if (e.target===e.currentTarget) closeModal(); });
   document.getElementById('crm-modal').addEventListener('click',  e => { if (e.target===e.currentTarget) closeCrmModal(); });
 
-  // ââ Export Functions ââ
+  // Ã¢ÂÂÃ¢ÂÂ Export Functions Ã¢ÂÂÃ¢ÂÂ
   async function exportCSV() {
     try {
       const res = await fetch(`${API_BASE}/contacts/all`);
@@ -891,8 +901,8 @@
       a.download = `cardsend-contacts-${new Date().toISOString().slice(0,10)}.csv`;
       a.click();
       URL.revokeObjectURL(url);
-      showToast(`â Downloaded ${contacts.length} contacts`);
-    } catch { showToast('Export failed â try again'); }
+      showToast(`Ã¢ÂÂ Downloaded ${contacts.length} contacts`);
+    } catch { showToast('Export failed Ã¢ÂÂ try again'); }
   }
 
   async function exportFacebook() {
@@ -901,7 +911,7 @@
       if (!res.ok) { showToast('Could not load contacts'); return; }
       const contacts = await res.json();
 
-      // Facebook custom audience format â phone numbers only
+      // Facebook custom audience format Ã¢ÂÂ phone numbers only
       const phones = contacts
         .map(c => c.customer_phone ? c.customer_phone.replace(/\D/g,'') : '')
         .filter(p => p.length >= 10)
@@ -916,11 +926,11 @@
       a.download = `facebook-audience-${new Date().toISOString().slice(0,10)}.csv`;
       a.click();
       URL.revokeObjectURL(url);
-      showToast(`â Downloaded ${phones.length} numbers for Facebook`);
-    } catch { showToast('Export failed â try again'); }
+      showToast(`Ã¢ÂÂ Downloaded ${phones.length} numbers for Facebook`);
+    } catch { showToast('Export failed Ã¢ÂÂ try again'); }
   }
 
-  // ââ Analytics ââ
+  // Ã¢ÂÂÃ¢ÂÂ Analytics Ã¢ÂÂÃ¢ÂÂ
   async function loadAnalytics(reps, contacts) {
     if (!reps || !contacts) return;
     const panel = document.getElementById('analytics-panel');
@@ -996,7 +1006,7 @@
               </tr>`).join('')}
           </tbody>
         </table>
-        <p style="font-size:11px;color:var(--text3);margin-top:12px;">Follow-up rate = contacts marked "Following Up" or "Purchased" Ã· total cards sent. Close rate = contacts marked "Purchased" Ã· total cards sent.</p>
+        <p style="font-size:11px;color:var(--text3);margin-top:12px;">Follow-up rate = contacts marked "Following Up" or "Purchased" ÃÂ· total cards sent. Close rate = contacts marked "Purchased" ÃÂ· total cards sent.</p>
       </div>`;
   }
 
