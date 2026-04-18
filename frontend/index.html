@@ -200,29 +200,29 @@
   @keyframes spin { to { transform: rotate(360deg); } }
 
   /* Onboarding */
-  .onboard-overlay { display:none; position:fixed; inset:0; background:var(--bg); z-index:200; overflow-y:auto; }
-  .onboard-overlay.open { display:flex; flex-direction:column; }
-  .onboard-step { display:none; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:40px 24px; text-align:center; }
-  .onboard-step.active { display:flex; }
-  .onboard-icon { font-size:56px; margin-bottom:20px; }
-  .onboard-title { font-family:'Syne',sans-serif; font-size:26px; font-weight:800; color:var(--text); margin-bottom:10px; line-height:1.2; }
-  .onboard-sub { font-size:15px; color:var(--text2); line-height:1.6; margin-bottom:32px; max-width:320px; }
-  .onboard-dots { display:flex; gap:6px; margin-bottom:32px; }
-  .onboard-dot { width:8px; height:8px; border-radius:50%; background:var(--bg3); transition:all 0.3s; }
-  .onboard-dot.active { background:var(--accent); width:22px; border-radius:4px; }
-  .onboard-card-preview { background:linear-gradient(135deg,#1A1A2E,#16213E,#0F3460); border-radius:20px; padding:24px; width:100%; max-width:320px; margin-bottom:32px; text-align:left; }
-  .onboard-card-name { font-family:'Syne',sans-serif; font-size:20px; font-weight:700; color:#fff; margin-bottom:4px; }
-  .onboard-card-title-text { font-size:11px; color:rgba(204,0,0,0.9); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; }
-  .onboard-card-detail { font-size:12px; color:rgba(255,255,255,0.55); margin-bottom:3px; }
-  .onboard-input-group { width:100%; max-width:340px; text-align:left; margin-bottom:12px; }
-  .onboard-label { font-size:11px; font-weight:600; color:var(--text2); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:6px; display:block; }
-  .onboard-input { width:100%; background:var(--bg2); border:1px solid var(--border2); border-radius:var(--radius-sm); padding:13px 14px; font-family:'Inter',sans-serif; font-size:14px; color:var(--text); outline:none; box-sizing:border-box; }
-  .onboard-input:focus { border-color:var(--accent); }
-  .onboard-btn { width:100%; max-width:340px; background:var(--accent); color:#fff; border:none; border-radius:var(--radius-sm); padding:16px; font-family:'Syne',sans-serif; font-size:16px; font-weight:700; cursor:pointer; margin-bottom:12px; transition:background 0.15s; }
-  .onboard-btn:hover { background:var(--accent2); }
-  .onboard-skip { font-size:13px; color:var(--text3); cursor:pointer; border:none; background:none; font-family:'Inter',sans-serif; }
-  .onboard-progress { width:100%; max-width:340px; height:4px; background:var(--bg3); border-radius:2px; margin-bottom:32px; overflow:hidden; }
-  .onboard-progress-fill { height:100%; background:var(--accent); border-radius:2px; transition:width 0.4s; }
+  .ob-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:200;overflow-y:auto;}
+  .ob-overlay.open{display:flex;flex-direction:column;}
+  .ob-step{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px 24px;text-align:center;}
+  .ob-step.active{display:flex;}
+  .ob-icon{font-size:56px;margin-bottom:20px;}
+  .ob-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--text);margin-bottom:10px;line-height:1.2;}
+  .ob-sub{font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:28px;max-width:320px;}
+  .ob-dots{display:flex;gap:6px;margin-bottom:24px;}
+  .ob-dot{width:8px;height:8px;border-radius:50%;background:var(--bg3);transition:all 0.3s;}
+  .ob-dot.active{background:var(--accent);width:22px;border-radius:4px;}
+  .ob-prog{width:100%;max-width:340px;height:4px;background:var(--bg3);border-radius:2px;margin-bottom:28px;overflow:hidden;}
+  .ob-prog-fill{height:100%;background:var(--accent);border-radius:2px;transition:width 0.4s;}
+  .ob-card{background:linear-gradient(135deg,#1A1A2E,#16213E,#0F3460);border-radius:20px;padding:24px;width:100%;max-width:320px;margin-bottom:28px;text-align:left;}
+  .ob-card-name{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
+  .ob-card-role{font-size:11px;color:rgba(204,0,0,0.9);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:12px;}
+  .ob-card-line{font-size:12px;color:rgba(255,255,255,0.55);margin-bottom:3px;}
+  .ob-grp{width:100%;max-width:340px;text-align:left;margin-bottom:12px;}
+  .ob-lbl{font-size:11px;font-weight:600;color:var(--text2);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px;display:block;}
+  .ob-inp{width:100%;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:13px 14px;font-family:'Inter',sans-serif;font-size:14px;color:var(--text);outline:none;box-sizing:border-box;}
+  .ob-inp:focus{border-color:var(--accent);}
+  .ob-btn{width:100%;max-width:340px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);padding:16px;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:12px;transition:background 0.15s;}
+  .ob-btn:hover{background:var(--accent2);}
+  .ob-skip{font-size:13px;color:var(--text3);cursor:pointer;border:none;background:none;font-family:'Inter',sans-serif;}
 </style>
 </head>
 <body>
@@ -445,76 +445,6 @@
 
 <div id="toast"></div>
 
-<!-- Onboarding Overlay -->
-<div class="onboard-overlay" id="onboard-overlay">
-
-  <!-- Step 1: Welcome -->
-  <div class="onboard-step active" id="onboard-step-1">
-    <div class="onboard-icon">👋</div>
-    <div class="onboard-title">Welcome to CardSend</div>
-    <div class="onboard-sub">The easiest way to share your digital business card and build your customer list — all from your phone.</div>
-    <div class="onboard-dots">
-      <div class="onboard-dot active"></div>
-      <div class="onboard-dot"></div>
-      <div class="onboard-dot"></div>
-    </div>
-    <div class="onboard-progress" style="margin-bottom:32px;"><div class="onboard-progress-fill" style="width:33%"></div></div>
-    <button class="onboard-btn" onclick="onboardNext(2)">Get Started →</button>
-  </div>
-
-  <!-- Step 2: Set up profile -->
-  <div class="onboard-step" id="onboard-step-2">
-    <div class="onboard-icon">🪪</div>
-    <div class="onboard-title">Set up your card</div>
-    <div class="onboard-sub">This info will appear on your digital business card. Customers will see this when you send your card.</div>
-    <div class="onboard-dots">
-      <div class="onboard-dot"></div>
-      <div class="onboard-dot active"></div>
-      <div class="onboard-dot"></div>
-    </div>
-    <div class="onboard-progress"><div class="onboard-progress-fill" style="width:66%"></div></div>
-    <div class="onboard-input-group">
-      <label class="onboard-label">Your Full Name</label>
-      <input class="onboard-input" id="ob-name" type="text" placeholder="e.g. Victor Tabbs" oninput="updateOnboardPreview()">
-    </div>
-    <div class="onboard-input-group">
-      <label class="onboard-label">Your Title</label>
-      <input class="onboard-input" id="ob-title" type="text" placeholder="e.g. Senior Sales Associate" oninput="updateOnboardPreview()">
-    </div>
-    <div class="onboard-input-group">
-      <label class="onboard-label">Store Location</label>
-      <input class="onboard-input" id="ob-store" type="text" placeholder="e.g. Capitol Heights, MD" oninput="updateOnboardPreview()">
-    </div>
-    <div class="onboard-input-group">
-      <label class="onboard-label">Phone</label>
-      <input class="onboard-input" id="ob-phone" type="tel" placeholder="(555) 000-0000" oninput="updateOnboardPreview()">
-    </div>
-    <button class="onboard-btn" onclick="onboardNext(3)">Preview My Card →</button>
-    <button class="onboard-skip" onclick="skipOnboard()">Skip for now</button>
-  </div>
-
-  <!-- Step 3: Preview & Finish -->
-  <div class="onboard-step" id="onboard-step-3">
-    <div class="onboard-icon">🎉</div>
-    <div class="onboard-title">Looking good!</div>
-    <div class="onboard-sub">Here's your digital card. You're ready to start sending it to customers.</div>
-    <div class="onboard-dots">
-      <div class="onboard-dot"></div>
-      <div class="onboard-dot"></div>
-      <div class="onboard-dot active"></div>
-    </div>
-    <div class="onboard-progress"><div class="onboard-progress-fill" style="width:100%"></div></div>
-    <div class="onboard-card-preview">
-      <div class="onboard-card-name" id="ob-preview-name">Your Name</div>
-      <div class="onboard-card-title-text" id="ob-preview-title">SALES ASSOCIATE</div>
-      <div class="onboard-card-detail" id="ob-preview-store"></div>
-      <div class="onboard-card-detail" id="ob-preview-phone"></div>
-      <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:rgba(255,255,255,0.15);letter-spacing:0.1em;text-transform:uppercase;margin-top:16px;text-align:right;">Regency</div>
-    </div>
-    <button class="onboard-btn" onclick="finishOnboard()">Start Sending Cards 🚀</button>
-  </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = 'https://pdajbnuexprwnwulcqsz.supabase.co';
@@ -589,8 +519,7 @@
     if (!repId) repId = localStorage.getItem('cs_rep_id');
     await loadContacts();
     if (profile?.role === 'manager') await loadDashboard();
-    // Show onboarding for new reps only
-    if (profile?.role !== 'manager') checkOnboarding();
+    if (profile?.role !== 'manager') obCheckOnboard();
   })();
 
   // ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Tab Switching ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ
@@ -1148,149 +1077,123 @@
       </div>`;
   }
 
+
+
   // ── Onboarding ──
-  function checkOnboarding() {
-    const done = localStorage.getItem('cs_onboard_done');
-    if (!done) {
-      document.getElementById('onboard-overlay').classList.add('open');
+  function obCheckOnboard() {
+    if (!localStorage.getItem('cs_ob_done')) {
+      document.getElementById('ob-overlay').classList.add('open');
     }
   }
-
-  function onboardNext(step) {
-    document.querySelectorAll('.onboard-step').forEach(s => s.classList.remove('active'));
-    document.getElementById('onboard-step-' + step).classList.add('active');
+  function obNext(n) {
+    document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
+    const el = document.getElementById('ob-' + n);
+    if (el) el.classList.add('active');
   }
-
-  function updateOnboardPreview() {
+  function obPreview() {
     const name  = document.getElementById('ob-name')?.value  || 'Your Name';
     const title = document.getElementById('ob-title')?.value || 'Sales Associate';
     const store = document.getElementById('ob-store')?.value || '';
     const phone = document.getElementById('ob-phone')?.value || '';
-    const pname = document.getElementById('ob-preview-name');
-    const ptitle = document.getElementById('ob-preview-title');
-    const pstore = document.getElementById('ob-preview-store');
-    const pphone = document.getElementById('ob-preview-phone');
-    if (pname)  pname.textContent  = name;
-    if (ptitle) ptitle.textContent = title.toUpperCase();
-    if (pstore) pstore.textContent = store ? '📍 ' + store : '';
-    if (pphone) pphone.textContent = phone ? '📞 ' + phone : '';
+    const el = (id, val) => { const e = document.getElementById(id); if(e) e.textContent = val; };
+    el('ob-pname', name);
+    el('ob-prole', title.toUpperCase());
+    el('ob-pstore', store ? '📍 ' + store : '');
+    el('ob-pphone', phone ? '📞 ' + phone : '');
   }
-
-  async function finishOnboard() {
+  async function obFinish() {
     const name  = document.getElementById('ob-name')?.value.trim();
     const title = document.getElementById('ob-title')?.value.trim();
     const store = document.getElementById('ob-store')?.value.trim();
     const phone = document.getElementById('ob-phone')?.value.trim();
     if (name) {
-      document.getElementById('rep-name').value  = name;
-      document.getElementById('rep-title').value = title || '';
-      document.getElementById('rep-store').value = store || '';
-      document.getElementById('rep-phone').value = phone || '';
+      const f = (id, val) => { const e = document.getElementById(id); if(e) e.value = val||''; };
+      f('rep-name', name); f('rep-title', title); f('rep-store', store); f('rep-phone', phone);
       updatePreview();
       await saveProfile();
     }
-    localStorage.setItem('cs_onboard_done', '1');
-    document.getElementById('onboard-overlay').classList.remove('open');
+    localStorage.setItem('cs_ob_done', '1');
+    document.getElementById('ob-overlay').classList.remove('open');
     showToast('Welcome to CardSend! 🎉');
   }
-
-  function skipOnboard() {
-    localStorage.setItem('cs_onboard_done', '1');
-    document.getElementById('onboard-overlay').classList.remove('open');
+  function obSkip() {
+    localStorage.setItem('cs_ob_done', '1');
+    document.getElementById('ob-overlay').classList.remove('open');
   }
 
-  // ── Manager Charts (Chart.js) ──
-  let cardsChart = null;
-  let statusChart = null;
-
-  async function renderCharts(allReps, allContacts) {
-    // Inject Chart.js if not loaded
+  // ── Charts ──
+  let _cardsChart = null, _statusChart = null;
+  async function renderCharts(reps, contacts) {
     if (!window.Chart) {
       await new Promise(res => {
         const s = document.createElement('script');
         s.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js';
-        s.onload = res;
-        document.head.appendChild(s);
+        s.onload = res; document.head.appendChild(s);
       });
     }
-
-    // ── Cards sent per day (last 14 days) ──
-    const days = 14;
-    const labels = [];
-    const dayCounts = [];
-    for (let i = days - 1; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      d.setHours(0,0,0,0);
+    const days = 14, labels = [], counts = [];
+    for (let i = days-1; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate()-i); d.setHours(0,0,0,0);
+      const nd = new Date(d); nd.setDate(nd.getDate()+1);
       labels.push(d.toLocaleDateString('en-US',{month:'short',day:'numeric'}));
-      const next = new Date(d); next.setDate(next.getDate()+1);
-      dayCounts.push(allContacts.filter(c => { const t = new Date(c.sent_at); return t >= d && t < next; }).length);
+      counts.push(contacts.filter(c => { const t=new Date(c.sent_at); return t>=d&&t<nd; }).length);
     }
-
-    // ── Status breakdown ──
-    const statusCounts = { new:0, following:0, purchased:0, cold:0 };
-    allContacts.forEach(c => {
-      const s = c.status || 'new';
-      statusCounts[s] = (statusCounts[s]||0) + 1;
+    const sc = {new:0,following:0,purchased:0,cold:0};
+    contacts.forEach(c => { const s=c.status||'new'; sc[s]=(sc[s]||0)+1; });
+    if (_cardsChart) { _cardsChart.destroy(); _cardsChart=null; }
+    if (_statusChart) { _statusChart.destroy(); _statusChart=null; }
+    const ctx1 = document.getElementById('chart-cards');
+    if (ctx1) _cardsChart = new Chart(ctx1, {
+      type:'bar', data:{ labels, datasets:[{ label:'Cards Sent', data:counts, backgroundColor:'rgba(204,0,0,0.7)', borderColor:'#CC0000', borderWidth:1, borderRadius:4 }] },
+      options:{ responsive:true, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true,ticks:{stepSize:1,color:'#999'},grid:{color:'rgba(0,0,0,0.05)'}}, x:{ticks:{color:'#999',maxRotation:45},grid:{display:false}} } }
     });
-
-    // Destroy old charts
-    if (cardsChart) { cardsChart.destroy(); cardsChart = null; }
-    if (statusChart) { statusChart.destroy(); statusChart = null; }
-
-    // Render cards-per-day chart
-    const ctx1 = document.getElementById('chart-cards-per-day');
-    if (ctx1) {
-      cardsChart = new Chart(ctx1, {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Cards Sent',
-            data: dayCounts,
-            backgroundColor: 'rgba(204,0,0,0.7)',
-            borderColor: '#CC0000',
-            borderWidth: 1,
-            borderRadius: 4,
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: { legend: { display: false } },
-          scales: {
-            y: { beginAtZero: true, ticks: { stepSize: 1, color: '#999' }, grid: { color: 'rgba(0,0,0,0.05)' } },
-            x: { ticks: { color: '#999', maxRotation: 45 }, grid: { display: false } }
-          }
-        }
-      });
-    }
-
-    // Render status donut chart
     const ctx2 = document.getElementById('chart-status');
-    if (ctx2) {
-      statusChart = new Chart(ctx2, {
-        type: 'doughnut',
-        data: {
-          labels: ['New', 'Following Up', 'Purchased', 'Cold'],
-          datasets: [{
-            data: [statusCounts.new, statusCounts.following, statusCounts.purchased, statusCounts.cold],
-            backgroundColor: ['#1A6FCC','#CC0000','#1A8A4A','#999'],
-            borderWidth: 2,
-            borderColor: '#fff'
-          }]
-        },
-        options: {
-          responsive: true,
-          cutout: '65%',
-          plugins: {
-            legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 12 }, padding: 12, color: '#555' } }
-          }
-        }
-      });
-    }
+    if (ctx2) _statusChart = new Chart(ctx2, {
+      type:'doughnut', data:{ labels:['New','Following Up','Purchased','Cold'], datasets:[{ data:[sc.new,sc.following,sc.purchased,sc.cold], backgroundColor:['#1A6FCC','#CC0000','#1A8A4A','#999'], borderWidth:2, borderColor:'#fff' }] },
+      options:{ responsive:true, cutout:'65%', plugins:{ legend:{position:'bottom',labels:{font:{family:'Inter',size:12},padding:12,color:'#555'}} } }
+    });
   }
 
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js');
 </script>
+
+<div class="ob-overlay" id="ob-overlay">
+  <div class="ob-step active" id="ob-1">
+    <div class="ob-icon">👋</div>
+    <div class="ob-title">Welcome to CardSend</div>
+    <div class="ob-sub">The easiest way to share your digital business card and track your customers — all from your phone.</div>
+    <div class="ob-dots"><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
+    <div class="ob-prog"><div class="ob-prog-fill" style="width:33%"></div></div>
+    <button class="ob-btn" onclick="obNext(2)">Get Started →</button>
+  </div>
+  <div class="ob-step" id="ob-2">
+    <div class="ob-icon">🪪</div>
+    <div class="ob-title">Set up your card</div>
+    <div class="ob-sub">This info shows on your digital card. Fill it in so customers know who you are.</div>
+    <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot active"></div><div class="ob-dot"></div></div>
+    <div class="ob-prog"><div class="ob-prog-fill" style="width:66%"></div></div>
+    <div class="ob-grp"><label class="ob-lbl">Full Name</label><input class="ob-inp" id="ob-name" type="text" placeholder="e.g. Victor Tabbs" oninput="obPreview()"></div>
+    <div class="ob-grp"><label class="ob-lbl">Title</label><input class="ob-inp" id="ob-title" type="text" placeholder="e.g. Senior Sales Associate" oninput="obPreview()"></div>
+    <div class="ob-grp"><label class="ob-lbl">Store Location</label><input class="ob-inp" id="ob-store" type="text" placeholder="e.g. Capitol Heights, MD" oninput="obPreview()"></div>
+    <div class="ob-grp"><label class="ob-lbl">Phone</label><input class="ob-inp" id="ob-phone" type="tel" placeholder="(555) 000-0000" oninput="obPreview()"></div>
+    <button class="ob-btn" onclick="obNext(3)">Preview My Card →</button>
+    <button class="ob-skip" onclick="obSkip()">Skip for now</button>
+  </div>
+  <div class="ob-step" id="ob-3">
+    <div class="ob-icon">🎉</div>
+    <div class="ob-title">Looking good!</div>
+    <div class="ob-sub">Here is your digital business card. You are ready to start sending it to customers.</div>
+    <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot active"></div></div>
+    <div class="ob-prog"><div class="ob-prog-fill" style="width:100%"></div></div>
+    <div class="ob-card">
+      <div class="ob-card-name" id="ob-pname">Your Name</div>
+      <div class="ob-card-role" id="ob-prole">SALES ASSOCIATE</div>
+      <div class="ob-card-line" id="ob-pstore"></div>
+      <div class="ob-card-line" id="ob-pphone"></div>
+      <div style="font-family:'Syne',sans-serif;font-size:10px;font-weight:700;color:rgba(255,255,255,0.15);letter-spacing:0.1em;text-transform:uppercase;margin-top:16px;text-align:right;">Regency</div>
+    </div>
+    <button class="ob-btn" onclick="obFinish()">Start Sending Cards 🚀</button>
+  </div>
+</div>
 </body>
 </html>
