@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CardSend â Sign In</title>
+<title>CardSend Ã¢ÂÂ Sign In</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -64,6 +64,10 @@
     <div class="form-group">
       <label>Password</label>
       <input type="password" id="signup-password" placeholder="Min 6 characters" autocomplete="new-password">
+    </div>
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input type="password" id="signup-confirm" placeholder="Re-enter your password" autocomplete="new-password">
     </div>
     <div class="form-group">
       <label>Role</label>
@@ -133,6 +137,8 @@
     if (!name) { showError('signup', 'Please enter your full name.'); return; }
     if (!email) { showError('signup', 'Please enter your email address.'); return; }
     if (!password || password.length < 6) { showError('signup', 'Password must be at least 6 characters.'); return; }
+    const confirm = document.getElementById('signup-confirm').value;
+    if (password !== confirm) { showError('signup', 'Passwords do not match. Please try again.'); return; }
     const btn = document.getElementById('signup-btn');
     btn.disabled = true; btn.textContent = 'Creating account...';
     clearErrors();
