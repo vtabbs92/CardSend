@@ -1,17 +1,21 @@
-const CACHE = 'cardsend-v1';
-const ASSETS = [
-  '/',
-  '/index.html'
-];
+// CardSend Service Worker - Cache Busted 1776568746268
+const CACHE_NAME = 'cardsend-v1776568746268';
 
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE).then(cache => cache.addAll(ASSETS))
+self.addEventListener('install', (event) => {
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then(keys => 
+      Promise.all(keys.map(key => caches.delete(key)))
+    ).then(() => clients.claim())
   );
 });
 
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request))
+// Always fetch fresh from network - no caching
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    fetch(event.request).catch(() => caches.match(event.request))
   );
 });
